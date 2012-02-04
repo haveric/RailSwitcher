@@ -1,0 +1,7 @@
+name: RailSwitcher
+main: haveric.railSwitcher.RailSwitcher
+version: 0.5
+depend: [Vault]
+description: >
+             Switch placed rails
+commands:
