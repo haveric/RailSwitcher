@@ -35,9 +35,10 @@ public class RSPlayerInteract implements Listener{
 		
 		World world = player.getWorld();
 		
-		if (perm == null || perm.has(player,  "railswitcher.switch")){
+		Material type = block.getType();
 			if (event.getAction() == Action.RIGHT_CLICK_BLOCK && holding.getType() == Material.SHEARS){
-				Material type = block.getType();
+				if (perm == null || perm.has(player,  "railswitcher.switch")){
+				
 				
 				int data = block.getData();
 	
@@ -46,16 +47,16 @@ public class RSPlayerInteract implements Listener{
 				int bz = block.getZ();
 				if (type == Material.RAILS){
 					if (data < 9){
-						if (data == 1 && canPlaceRail(player,world.getBlockAt(bx+1,by,bz).getType())){		
+						if (data == 1 && !canPlaceRail(player,world.getBlockAt(bx+1,by,bz).getType())){
 							data++;
 						}
-						if (data == 2 && canPlaceRail(player,world.getBlockAt(bx-1,by,bz).getType())){
+						if (data == 2 && !canPlaceRail(player,world.getBlockAt(bx-1,by,bz).getType())){
 							data++;
 						}
-						if (data == 3 && canPlaceRail(player,world.getBlockAt(bx,by,bz-1).getType())){
+						if (data == 3 && !canPlaceRail(player,world.getBlockAt(bx,by,bz-1).getType())){
 							data++;
 						}
-						if (data == 4 && canPlaceRail(player,world.getBlockAt(bx,by,bz+1).getType())){
+						if (data == 4 && !canPlaceRail(player,world.getBlockAt(bx,by,bz+1).getType())){
 							data++;
 						}
 						
@@ -79,19 +80,22 @@ public class RSPlayerInteract implements Listener{
 						block.setData((byte)0);
 					}
 				}
+			} else {
+				if (type == Material.RAILS || type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL){
+					player.sendMessage("[RailSwitcher] " + ChatColor.RED + "You do not have permission to switch rails.");
+					return;
+				}
 			}
-		} else {
-			player.sendMessage("[RailSwitcher] " + ChatColor.RED + "You do not have permission to switch rails.");
-		}
+		} 
 	}
 	
 	private boolean canPlaceRail(Player player,Material m) {
-		boolean canPlace = false;
+		boolean canPlace = true;
 		ArrayList<Material> materials = plugin.getMaterials();
 		if (materials != null){
-			for (int i = 0; i < materials.size() && !canPlace; i++) {
+			for (int i = 0; i < materials.size() && canPlace; i++) {
 				 if (m == materials.get(i)){
-					 canPlace = true;
+					 canPlace = false;
 				 }
 			}
 		}

@@ -20,7 +20,7 @@ public class RailSwitcher extends JavaPlugin{
     private static final Logger log = Logger.getLogger("Minecraft");
     private final RSPlayerInteract playerInteract = new RSPlayerInteract(this);
     
-    private static final int BLOCKS_VERSION = 1;
+    private static final int BLOCKS_VERSION = 2;
     private File defaultBlocks;
     private File customBlocks;
     
@@ -82,6 +82,14 @@ public class RailSwitcher extends JavaPlugin{
 				writeBlocks(defaultBlocks, true);
 			}
 			
+			sc = new Scanner(defaultBlocks);
+			listOfMaterials = new ArrayList<Material>();
+			sc.next();
+			sc.nextInt();
+			while(sc.hasNextInt()){
+				listOfMaterials.add(Material.getMaterial(sc.nextLine()));
+			}
+			
 			sc.close();
 		} catch (FileNotFoundException e) {
 			log.warning(String.format("[%s] defaultBlocks.txt not found." , getDescription().getName()));
@@ -91,15 +99,14 @@ public class RailSwitcher extends JavaPlugin{
 
 		try {
 			Scanner sc2 = new Scanner(customBlocks);
-
-			if (!sc2.hasNextLine()){
-				writeBlocks(customBlocks, false);
-			}
 			
-			listOfMaterials = new ArrayList<Material>();
-	
-			while(sc2.hasNextLine()){	
-				listOfMaterials.add(Material.getMaterial(sc2.nextLine()));
+			
+			
+			if (sc2.hasNextLine()){
+				listOfMaterials = new ArrayList<Material>();
+				while(sc2.hasNextLine()){	
+					listOfMaterials.add(Material.getMaterial(sc2.nextLine()));
+				}
 			}
 			
 			sc2.close();
@@ -130,15 +137,47 @@ public class RailSwitcher extends JavaPlugin{
 			out.println("CROPS");
 			out.println("DEAD_BUSH");
 			out.println("DETECTOR_RAIL");
+			out.println("DRAGON EGG");
+			out.println("DIODE");
+			out.println("ENCHANTMENT_TABLE");
 			out.println("FENCE");
 			out.println("FENCE_GATE");
+			out.println("FIRE");
 			out.println("GLASS");
+			out.println("ICE");
+			out.println("LADDER");
+			out.println("LAVA");
 			out.println("LEAVES");
+			out.println("LEVER");
+			out.println("LOCKED_CHEST");
 			out.println("LONG_GRASS");
+			out.println("NETHER_FENCE");
+			out.println("NETHER_STALK");
+			out.println("NETHER_WARTS");
+			out.println("PISTON_BASE");
 			out.println("PISTON_EXTENSION");
+			out.println("PISTON_MOVING_PIECE");
+			out.println("PISTON_STICKY_BASE");
 			out.println("POWERED_RAIL");
+			out.println("PUMPKIN_STEM");
 			out.println("RAILS");
+			out.println("REDSTONE_TORCH_OFF");
+			out.println("REDSTONE_TORCH_ON");
+			out.println("REDSTONE_WIRE");
 			out.println("RED_MUSHROOM");
+			out.println("SIGN");
+			out.println("SIGN_POST");
+			out.println("STATIONARY_LAVA");
+			out.println("STATIONARY_WATER");
+			out.println("SUGAR_CANE_BLOCK");
+			out.println("THIN_GLASS");
+			out.println("TNT");
+			out.println("TORCH");
+			out.println("TRAP_DOOR");
+			out.println("WATER");
+			out.println("WEB");
+			out.println("WHEAT");
+			out.println("YELLOW_FLOWER");
 			
 			out.close();
 			fstream.close();
