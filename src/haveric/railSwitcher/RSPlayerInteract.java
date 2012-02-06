@@ -133,8 +133,7 @@ public class RSPlayerInteract implements Listener{
                     if (amt > 1){
                         holding.setAmount(--amt);
                     } else {
-                    	inventory.setItemInHand(null);
-                        
+                    	inventory.setItemInHand(null);                        
                     }
 				} else if (type == Material.POWERED_RAIL) {
 					block.breakNaturally();
