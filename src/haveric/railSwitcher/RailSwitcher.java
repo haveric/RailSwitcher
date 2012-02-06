@@ -70,7 +70,7 @@ public class RailSwitcher extends JavaPlugin{
 		try {
 			Scanner sc = new Scanner(defaultBlocks);
 			
-			if (sc.hasNextLine()){
+			if (defaultBlocks.length() > 0){
 				sc.next();
 				int fileVersion = sc.nextInt();
 				if (fileVersion < BLOCKS_VERSION){
@@ -81,16 +81,17 @@ public class RailSwitcher extends JavaPlugin{
 			} else {
 				writeBlocks(defaultBlocks, true);
 			}
+			sc.close();
 			
-			sc = new Scanner(defaultBlocks);
+			Scanner sc2 = new Scanner(defaultBlocks);
 			listOfMaterials = new ArrayList<Material>();
-			sc.next();
-			sc.nextInt();
-			while(sc.hasNextInt()){
-				listOfMaterials.add(Material.getMaterial(sc.nextLine()));
+			sc2.next();
+			sc2.nextInt();
+			while(sc2.hasNextLine()){
+				listOfMaterials.add(Material.getMaterial(sc2.nextLine()));
 			}
 			
-			sc.close();
+			sc2.close();
 		} catch (FileNotFoundException e) {
 			log.warning(String.format("[%s] defaultBlocks.txt not found." , getDescription().getName()));
 			e.printStackTrace();
@@ -98,18 +99,16 @@ public class RailSwitcher extends JavaPlugin{
 		
 
 		try {
-			Scanner sc2 = new Scanner(customBlocks);
+			Scanner sc3 = new Scanner(customBlocks);
 			
-			
-			
-			if (sc2.hasNextLine()){
+			if (customBlocks.length() > 0){
 				listOfMaterials = new ArrayList<Material>();
-				while(sc2.hasNextLine()){	
-					listOfMaterials.add(Material.getMaterial(sc2.nextLine()));
+				while(sc3.hasNextLine()){	
+					listOfMaterials.add(Material.getMaterial(sc3.nextLine()));
 				}
 			}
 			
-			sc2.close();
+			sc3.close();
 		} catch (FileNotFoundException e) {
 			log.warning(String.format("[%s] customBlocks.txt not found." , getDescription().getName()));
 			e.printStackTrace();
