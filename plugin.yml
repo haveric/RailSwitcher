@@ -1,6 +1,6 @@
 name: RailSwitcher
 main: haveric.railSwitcher.RailSwitcher
-version: 0.7
+version: 1.0
 depend: [Vault]
 description: >
              Switch placed rails with other types or directions

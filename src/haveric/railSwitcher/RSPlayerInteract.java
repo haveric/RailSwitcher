@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import net.milkbowl.vault.permission.Permission;
 
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
@@ -81,7 +82,7 @@ public class RSPlayerInteract implements Listener{
 						}
 						block.setData((byte) data);
 
-						useItemInHand();
+						useItemInHand(player);
 					}
 				} else if (type == Material.POWERED_RAIL) {
 					if (hand == Material.SHEARS || hand == Material.POWERED_RAIL) {
@@ -117,7 +118,7 @@ public class RSPlayerInteract implements Listener{
 						}
 						block.setData((byte) data);
 
-						useItemInHand();
+						useItemInHand(player);
 					}
 				} else if (type == Material.DETECTOR_RAIL) {
 					if (hand == Material.SHEARS || hand == Material.DETECTOR_RAIL) {
@@ -150,8 +151,54 @@ public class RSPlayerInteract implements Listener{
 						}
 						block.setData((byte) data);
 
-						useItemInHand();
+						useItemInHand(player);
 					}
+				} else if (type == Material.RAILS) {
+					block.breakNaturally();
+					if (hand == Material.POWERED_RAIL) {
+						block.setType(Material.POWERED_RAIL);	                    
+					} else if (hand == Material.DETECTOR_RAIL) {
+						block.setType(Material.DETECTOR_RAIL);						
+					}
+					if (data > 5){
+						data = 0;
+					}
+					block.setData((byte) data);
+					
+					if (player.getGameMode() == GameMode.SURVIVAL){
+	                    int amt = holding.getAmount();
+	                    if (amt > 1){
+	                        holding.setAmount(--amt);
+	                    } else {
+	                    	inventory.setItemInHand(null);                        
+	                    }
+					}
+				} else if (type == Material.POWERED_RAIL) {
+					block.breakNaturally();
+					if (hand == Material.RAILS) {
+						block.setType(Material.RAILS);
+					} else if (hand == Material.DETECTOR_RAIL) {
+						block.setType(Material.DETECTOR_RAIL);
+					}
+					if (data > 5){
+						data = 0;
+					}
+					block.setData((byte) data);
+					
+					useItemInHand(player);
+				} else if (type == Material.DETECTOR_RAIL) {
+					block.breakNaturally();
+					if (hand == Material.POWERED_RAIL) {
+						block.setType(Material.POWERED_RAIL);
+					} else if (hand == Material.RAILS) {
+						block.setType(Material.RAILS);
+					}
+					if (data > 5){
+						data = 0;
+					}
+					block.setData((byte) data);
+					
+					useItemInHand(player);
 				}
 			} // end perm check
 		}
@@ -171,12 +218,14 @@ public class RSPlayerInteract implements Listener{
 		return canPlace;
 	}
 
-	private void useItemInHand(){
-        int amt = holding.getAmount();
-        if (amt > 1){
-            holding.setAmount(--amt);
-        } else {
-        	inventory.setItemInHand(null);
-        }
+	private void useItemInHand(Player player){
+		if (player.getGameMode() == GameMode.SURVIVAL){
+	        int amt = holding.getAmount();
+	        if (amt > 1){
+	            holding.setAmount(--amt);
+	        } else {
+	        	inventory.setItemInHand(null);
+	        }
+		}
 	}
 }
