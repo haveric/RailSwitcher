@@ -2,6 +2,7 @@ name: RailSwitcher
 main: haveric.railSwitcher.RailSwitcher
 version: 1.0
 depend: [Vault]
+author: haveric
 dev-url: http://dev.bukkit.org/server-mods/railswitcher/
 description: >
              Switch placed rails with other types or directions
