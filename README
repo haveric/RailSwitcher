@@ -4,5 +4,9 @@ Allows you to turn rails or swap out different types of rails(powered, detector,
 
 Changelog:
 
+Version 1.0.1
+* Added default command /railswitcher
+* Made Vault optional.  If not found, everyone can Switch rails.
+
 Version 1.0 (3/2/2012)
 * Initial release

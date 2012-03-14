@@ -20,6 +20,8 @@ public class RailSwitcher extends JavaPlugin{
     private static final Logger log = Logger.getLogger("Minecraft");
     private final RSPlayerInteract playerInteract = new RSPlayerInteract(this);
     
+    private Commands commands = new Commands(this);
+    
     private static final int BLOCKS_VERSION = 2;
     private File defaultBlocks;
     private File customBlocks;
@@ -43,6 +45,8 @@ public class RailSwitcher extends JavaPlugin{
 		
 		// Vault
 		setupVault();
+		
+		getCommand(Commands.getMain()).setExecutor(commands);
 		
 		log.info(String.format("[%s] v%s Started",getDescription().getName(), getDescription().getVersion()));
 	}
@@ -189,7 +193,11 @@ public class RailSwitcher extends JavaPlugin{
 		return listOfMaterials;
 	}
 	
-	private void setupVault() {       
+	private void setupVault() {
+		if(getServer().getPluginManager().getPlugin("Vault") == null){
+    		log.info(String.format("[%s] Vault not found. Permissions disabled.",getDescription().getName()));
+    		return;
+    	}
         RegisteredServiceProvider<Permission> permProvider = getServer().getServicesManager().getRegistration(net.milkbowl.vault.permission.Permission.class);
         if (permProvider != null) {
             perm = permProvider.getProvider();
