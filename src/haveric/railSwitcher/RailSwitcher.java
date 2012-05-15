@@ -48,12 +48,11 @@ public class RailSwitcher extends JavaPlugin{
 		
 		getCommand(Commands.getMain()).setExecutor(commands);
 		
-		log.info(String.format("[%s] v%s Started",getDescription().getName(), getDescription().getVersion()));
 	}
 
 	@Override
 	public void onDisable() {
-		log.info(String.format("[%s] Disabled",getDescription().getName()));
+
 	}
 	
 	private void createFiles() {
