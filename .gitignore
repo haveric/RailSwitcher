@@ -2,4 +2,9 @@
 *.classpath
 *.project
 
+.class
+.classpath
+.project
 .settings
+
+.pmd
