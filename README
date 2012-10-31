@@ -1,8 +1,13 @@
-Version 1.0.1
+Rail Switcher
 
 Allows you to turn rails or swap out different types of rails(powered, detector, or normal) with each other by right clicking on rail with a rail or shears
 
 Changelog:
+
+Version 1.0.2 (Coming soon)
+* Added WorldGuard support
+* Adding Metrics support. To opt out, set "opt-out: true" in PluginMetrics/config.yml
+* Removed the need for Vault, any permission will do.
 
 Version 1.0.1 (3/13/2012)
 * Added default command /railswitcher
