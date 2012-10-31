@@ -24,7 +24,7 @@ public class RailSwitcher extends JavaPlugin {
 
     private Commands commands = new Commands(this);
 
-    private static final int BLOCKS_VERSION = 3;
+    private static final int BLOCKS_VERSION = 4;
     private File defaultBlocks;
     private File customBlocks;
 
@@ -146,15 +146,21 @@ public class RailSwitcher extends JavaPlugin {
             }
 
             out.println("AIR");
+            out.println("ANVIL");
+            out.println("BEACON");
             out.println("BED");
             out.println("BED_BLOCK");
             out.println("BEDROCK");
+            out.println("BIRCH_WOOD_STAIRS");
             out.println("BREWING_STAND");
+            out.println("BRICK_STAIRS");
             out.println("BROWN_MUSHROOM");
             out.println("CACTUS");
             out.println("CAKE_BLOCK");
             out.println("CAULDRON");
             out.println("CHEST");
+            out.println("COBBLE_WALL");
+            out.println("COBBLESTONE_STAIRS");
             out.println("CROPS");
             out.println("DEAD_BUSH");
             out.println("DETECTOR_RAIL");
@@ -166,9 +172,11 @@ public class RailSwitcher extends JavaPlugin {
             out.println("FENCE");
             out.println("FENCE_GATE");
             out.println("FIRE");
+            out.println("FLOWER_POT");
             out.println("FURNACE");
             out.println("GLASS");
             out.println("ICE");
+            out.println("JUNGLE_WOOD_STAIRS");
             out.println("LADDER");
             out.println("LAVA");
             out.println("LEAVES");
@@ -191,6 +199,9 @@ public class RailSwitcher extends JavaPlugin {
             out.println("RED_MUSHROOM");
             out.println("SIGN");
             out.println("SIGN_POST");
+            out.println("SKULL");
+            out.println("SMOOTH_STAIRS");
+            out.println("SPRUCE_WOOD_STAIRS");
             out.println("STATIONARY_LAVA");
             out.println("STATIONARY_WATER");
             out.println("SUGAR_CANE_BLOCK");
@@ -198,10 +209,14 @@ public class RailSwitcher extends JavaPlugin {
             out.println("TNT");
             out.println("TORCH");
             out.println("TRAP_DOOR");
+            out.println("TRIPWIRE");
+            out.println("TRIPWIRE_HOOK");
+            out.println("TRAP_DOOR");
             out.println("WATER");
             out.println("WEB");
             out.println("WHEAT");
             out.println("WORKBENCH");
+            out.println("WOOD_STAIRS");
             out.println("YELLOW_FLOWER");
 
             out.close();
