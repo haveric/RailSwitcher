@@ -4,6 +4,10 @@ Allows you to turn rails or swap out different types of rails(powered, detector,
 
 Changelog:
 
+Coming soon:
+* Added permission to plugin.yml
+* Use plugin logger instead of Minecraft logger
+
 Version 1.0.2 (10/30/2012)
 * Added WorldGuard support
 * Adding Metrics support. To opt out, set "opt-out: true" in PluginMetrics/config.yml

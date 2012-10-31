@@ -10,3 +10,12 @@ commands:
   railswitcher:
     description: Switch placed rails with other types or directions
     usage:
+    
+permissions:
+    railswitcher.*:
+        description: Gives access to all RailSwitcher Commands
+        children:
+            railswitcher.switch: true
+    railswitcher.switch:
+        description: Allows switching of rails with other types and rotating rails.
+        default: false

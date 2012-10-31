@@ -19,7 +19,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class RailSwitcher extends JavaPlugin {
-    private static final Logger log = Logger.getLogger("Minecraft");
+    private Logger log;
     private final RSPlayerInteract playerInteract = new RSPlayerInteract(this);
 
     private Commands commands = new Commands(this);
@@ -34,6 +34,7 @@ public class RailSwitcher extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        log = getLogger();
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerInteract, this);
 
