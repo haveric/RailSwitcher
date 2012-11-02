@@ -61,16 +61,16 @@ public class RSPlayerInteract implements Listener {
                             if (data == 9) {
                                 block.setData((byte) 0);
                             } else {
-                                if (data == 1 && !canPlaceRail(world.getBlockAt(bx+1, by, bz).getType())) {
+                                if (data == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
                                     data++;
                                 }
-                                if (data == 2 && !canPlaceRail(world.getBlockAt(bx-1, by, bz).getType())) {
+                                if (data == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
                                     data++;
                                 }
-                                if (data == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz-1).getType())) {
+                                if (data == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
                                     data++;
                                 }
-                                if (data == 4 && !canPlaceRail(world.getBlockAt(bx,by,bz+1).getType())) {
+                                if (data == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
                                     data++;
                                 }
 
@@ -93,20 +93,20 @@ public class RSPlayerInteract implements Listener {
                     } else if (type == Material.POWERED_RAIL) {
                         if (hand == Material.SHEARS || hand == Material.POWERED_RAIL) {
                             if (data == 5) {
-                                block.setData((byte)0);
+                                block.setData((byte) 0);
                             } else if (data == 13) {
-                                block.setData((byte)8);
+                                block.setData((byte) 8);
                             } else {
-                                if ((data == 1 || data == 9) && !canPlaceRail(world.getBlockAt(bx+1, by, bz).getType())) {
+                                if ((data == 1 || data == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
                                     data++;
                                 }
-                                if ((data == 2 || data == 10) && !canPlaceRail(world.getBlockAt(bx-1, by, bz).getType())) {
+                                if ((data == 2 || data == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
                                     data++;
                                 }
-                                if ((data == 3 || data == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz-1).getType())) {
+                                if ((data == 3 || data == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
                                     data++;
                                 }
-                                if ((data == 4 || data == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz+1).getType())) {
+                                if ((data == 4 || data == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
                                     block.setData((byte) 0);
                                     return;
                                 }
@@ -128,16 +128,16 @@ public class RSPlayerInteract implements Listener {
                         }
                     } else if (type == Material.DETECTOR_RAIL) {
                         if (hand == Material.SHEARS || hand == Material.DETECTOR_RAIL) {
-                            if (data == 1 && !canPlaceRail(world.getBlockAt(bx+1, by, bz).getType())) {
+                            if (data == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
                                 data++;
                             }
-                            if (data == 2 && !canPlaceRail(world.getBlockAt(bx-1, by, bz).getType())) {
+                            if (data == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
                                 data++;
                             }
-                            if (data == 3 && !canPlaceRail(world.getBlockAt(bx ,by, bz-1).getType())) {
+                            if (data == 3 && !canPlaceRail(world.getBlockAt(bx ,by, bz - 1).getType())) {
                                 data++;
                             }
-                            if (data == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz+1).getType())) {
+                            if (data == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
                                 data++;
                             }
                             if (data == 5) {

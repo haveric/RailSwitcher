@@ -1,6 +1,7 @@
 package haveric.railSwitcher;
 
 import haveric.railSwitcher.mcstats.Metrics;
+import haveric.railSwitcher.mcstats.Metrics.Graph;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -30,7 +31,7 @@ public class RailSwitcher extends JavaPlugin {
 
     private ArrayList<Material> listOfMaterials;
 
-    Metrics metrics;
+    private Metrics metrics;
 
     @Override
     public void onEnable() {
@@ -70,6 +71,19 @@ public class RailSwitcher extends JavaPlugin {
     private void setupMetrics() {
         try {
             metrics = new Metrics(this);
+
+            // Custom data
+            Graph javaGraph = metrics.createGraph("Java Version");
+            String javaVersion = System.getProperty("java.version");
+            javaGraph.addPlotter(new Metrics.Plotter(javaVersion) {
+                @Override
+                public int getValue() {
+                    return 1;
+                }
+            });
+            metrics.addGraph(javaGraph);
+            // End Custom data
+
             metrics.start();
         } catch (IOException e) {
             e.printStackTrace();

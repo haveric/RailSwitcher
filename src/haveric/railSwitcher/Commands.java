@@ -34,16 +34,4 @@ public class Commands implements CommandExecutor {
     public static String getMain() {
         return cmdMain;
     }
-
-    public static void setMain(String cmd) {
-        cmdMain = cmd;
-    }
-
-    public static String getHelp() {
-        return cmdHelp;
-    }
-
-    public static void setHelp(String cmd) {
-        cmdHelp = cmd;
-    }
 }
