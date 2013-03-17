@@ -4,6 +4,9 @@ Allows you to turn rails or swap out different types of rails(powered, detector,
 
 Changelog:
 
+Coming Soon:
+* Removed extra TRAP_DOOR in default block list.
+
 Version 1.0.3 (3/17/2013)
 * Added permission to plugin.yml
 * Use plugin logger instead of Minecraft logger
