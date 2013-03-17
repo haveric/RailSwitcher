@@ -4,9 +4,22 @@ Allows you to turn rails or swap out different types of rails(powered, detector,
 
 Changelog:
 
-Coming soon:
+Version 1.0.3 (3/17/2013)
 * Added permission to plugin.yml
 * Use plugin logger instead of Minecraft logger
+* Added Activator Rails
+* Updated placeable block list.
+* Improved click placement when holding rails.
+** When using any rail, it now will get the block that you are LOOKING at.  This is not the same as the block that is TARGETED.
+** I still have no way to get the targeted block when using rails, but this is working much better than the previous method.
+* Updated Metrics
+* Moved defaultBlocks.txt and customBlocks.txt under the lists folder.
+* Added "/railswitcher reload" to command to reload config files (currently just lists)
+** Can only use if you are an op or have permission "railswitcher.adjust"
+* Since github dropped support for their version of downloads, I have set up a new folder structure under downloads:
+** release: always has the latest official version
+** dev: always has the most up to date version (could be the official or a development/test version)
+** old: storage of all old versions in case somebody wants to download an older version.
 
 Version 1.0.2 (10/30/2012)
 * Added WorldGuard support

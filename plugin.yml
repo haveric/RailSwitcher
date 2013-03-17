@@ -1,6 +1,6 @@
 name: RailSwitcher
 main: haveric.railSwitcher.RailSwitcher
-version: 1.0.2
+version: 1.0.3
 author: haveric
 dev-url: http://dev.bukkit.org/server-mods/railswitcher/
 softdepend: [WorldGuard]
@@ -16,6 +16,9 @@ permissions:
         description: Gives access to all RailSwitcher Commands
         children:
             railswitcher.switch: true
+            railswitcher.adjust: true
     railswitcher.switch:
         description: Allows switching of rails with other types and rotating rails.
         default: false
+    railswitcher.adjust:
+        description: Adjust config files. Allows use of /railswitcher reload

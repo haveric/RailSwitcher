@@ -1,15 +1,11 @@
 package haveric.railSwitcher;
 
+import haveric.railSwitcher.fileWriter.CustomFileWriter;
 import haveric.railSwitcher.mcstats.Metrics;
-import haveric.railSwitcher.mcstats.Metrics.Graph;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.List;
 import java.util.logging.Logger;
 
 import org.bukkit.Material;
@@ -20,31 +16,28 @@ import org.bukkit.plugin.java.JavaPlugin;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class RailSwitcher extends JavaPlugin {
-    private Logger log;
+    public Logger log;
+
     private final RSPlayerInteract playerInteract = new RSPlayerInteract(this);
 
     private Commands commands = new Commands(this);
 
-    private static final int BLOCKS_VERSION = 4;
-    private File defaultBlocks;
-    private File customBlocks;
+    private static final int BLOCKS_VERSION = 5;
 
-    private ArrayList<Material> listOfMaterials;
+    private CustomFileWriter fileWriter;
+    private List<Material> listOfMaterials;
 
     private Metrics metrics;
 
     @Override
     public void onEnable() {
         log = getLogger();
+
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(playerInteract, this);
 
-        if (!getDataFolder().exists()) {
-            getDataFolder().mkdir();
-        }
-        defaultBlocks = new File(getDataFolder() + "/defaultBlocks.txt");
-        customBlocks = new File(getDataFolder() + "/customBlocks.txt");
-        createFiles();
+        fileWriter = new CustomFileWriter(this, "Blocks");
+        reload();
 
         // WorldGuard
         setupWorldGuard(pm);
@@ -72,176 +65,115 @@ public class RailSwitcher extends JavaPlugin {
         try {
             metrics = new Metrics(this);
 
-            // Custom data
-            Graph javaGraph = metrics.createGraph("Java Version");
-            String javaVersion = System.getProperty("java.version");
-            javaGraph.addPlotter(new Metrics.Plotter(javaVersion) {
-                @Override
-                public int getValue() {
-                    return 1;
-                }
-            });
-            metrics.addGraph(javaGraph);
-            // End Custom data
-
             metrics.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    private void createFiles() {
-        if (!defaultBlocks.exists()) {
-            try {
-                defaultBlocks.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        if (!customBlocks.exists()) {
-            try {
-                customBlocks.createNewFile();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-        try {
-            Scanner sc = new Scanner(defaultBlocks);
-
-            if (defaultBlocks.length() > 0) {
-                sc.next();
-                int fileVersion = sc.nextInt();
-                if (fileVersion < BLOCKS_VERSION) {
-                    defaultBlocks.delete();
-                    defaultBlocks = new File(getDataFolder() + "/defaultBlocks.txt");
-                    writeBlocks(defaultBlocks, true);
-                }
-            } else {
-                writeBlocks(defaultBlocks, true);
-            }
-            sc.close();
-
-            Scanner sc2 = new Scanner(defaultBlocks);
-            listOfMaterials = new ArrayList<Material>();
-            sc2.next();
-            sc2.nextInt();
-            while (sc2.hasNextLine()) {
-                listOfMaterials.add(Material.getMaterial(sc2.nextLine()));
-            }
-
-            sc2.close();
-        } catch (FileNotFoundException e) {
-            log.warning(String.format("[%s] defaultBlocks.txt not found." , getDescription().getName()));
-            e.printStackTrace();
-        }
-
-        try {
-            Scanner sc3 = new Scanner(customBlocks);
-
-            if (customBlocks.length() > 0) {
-                listOfMaterials = new ArrayList<Material>();
-                while (sc3.hasNextLine()) {
-                    listOfMaterials.add(Material.getMaterial(sc3.nextLine()));
-                }
-            }
-
-            sc3.close();
-        } catch (FileNotFoundException e) {
-            log.warning(String.format("[%s] customBlocks.txt not found." , getDescription().getName()));
-            e.printStackTrace();
-        }
+    public void reload() {
+        loadDefaultList();
+        fileWriter.reloadFiles(BLOCKS_VERSION, listOfMaterials);
+        listOfMaterials = fileWriter.getMatList();
     }
 
-    private void writeBlocks(File f, boolean vers) {
-        try {
-            FileWriter fstream = new FileWriter(f);
-            PrintWriter out = new PrintWriter(fstream);
-            if (vers) {
-                out.println("Version: " + BLOCKS_VERSION);
-            }
-
-            out.println("AIR");
-            out.println("ANVIL");
-            out.println("BEACON");
-            out.println("BED");
-            out.println("BED_BLOCK");
-            out.println("BEDROCK");
-            out.println("BIRCH_WOOD_STAIRS");
-            out.println("BREWING_STAND");
-            out.println("BRICK_STAIRS");
-            out.println("BROWN_MUSHROOM");
-            out.println("CACTUS");
-            out.println("CAKE_BLOCK");
-            out.println("CAULDRON");
-            out.println("CHEST");
-            out.println("COBBLE_WALL");
-            out.println("COBBLESTONE_STAIRS");
-            out.println("CROPS");
-            out.println("DEAD_BUSH");
-            out.println("DETECTOR_RAIL");
-            out.println("DISPENSER");
-            out.println("DRAGON EGG");
-            out.println("DIODE");
-            out.println("ENCHANTMENT_TABLE");
-            out.println("ENDER_CHEST");
-            out.println("FENCE");
-            out.println("FENCE_GATE");
-            out.println("FIRE");
-            out.println("FLOWER_POT");
-            out.println("FURNACE");
-            out.println("GLASS");
-            out.println("ICE");
-            out.println("JUNGLE_WOOD_STAIRS");
-            out.println("LADDER");
-            out.println("LAVA");
-            out.println("LEAVES");
-            out.println("LEVER");
-            out.println("LOCKED_CHEST");
-            out.println("LONG_GRASS");
-            out.println("NETHER_FENCE");
-            out.println("NETHER_STALK");
-            out.println("NETHER_WARTS");
-            out.println("PISTON_BASE");
-            out.println("PISTON_EXTENSION");
-            out.println("PISTON_MOVING_PIECE");
-            out.println("PISTON_STICKY_BASE");
-            out.println("POWERED_RAIL");
-            out.println("PUMPKIN_STEM");
-            out.println("RAILS");
-            out.println("REDSTONE_TORCH_OFF");
-            out.println("REDSTONE_TORCH_ON");
-            out.println("REDSTONE_WIRE");
-            out.println("RED_MUSHROOM");
-            out.println("SIGN");
-            out.println("SIGN_POST");
-            out.println("SKULL");
-            out.println("SMOOTH_STAIRS");
-            out.println("SPRUCE_WOOD_STAIRS");
-            out.println("STATIONARY_LAVA");
-            out.println("STATIONARY_WATER");
-            out.println("SUGAR_CANE_BLOCK");
-            out.println("THIN_GLASS");
-            out.println("TNT");
-            out.println("TORCH");
-            out.println("TRAP_DOOR");
-            out.println("TRIPWIRE");
-            out.println("TRIPWIRE_HOOK");
-            out.println("TRAP_DOOR");
-            out.println("WATER");
-            out.println("WEB");
-            out.println("WHEAT");
-            out.println("WORKBENCH");
-            out.println("WOOD_STAIRS");
-            out.println("YELLOW_FLOWER");
-
-            out.close();
-            fstream.close();
-        } catch (IOException e) {
-            log.warning(String.format("[%s] File %s not found." , getDescription().getName(), f.getName()));
-        }
+    private void loadDefaultList() {
+        listOfMaterials = new ArrayList<Material>();
+        listOfMaterials.add(Material.ACTIVATOR_RAIL);
+        listOfMaterials.add(Material.AIR);
+        listOfMaterials.add(Material.ANVIL);
+        listOfMaterials.add(Material.BEACON);
+        listOfMaterials.add(Material.BED);
+        listOfMaterials.add(Material.BED_BLOCK);
+        listOfMaterials.add(Material.BIRCH_WOOD_STAIRS);
+        listOfMaterials.add(Material.BREWING_STAND);
+        listOfMaterials.add(Material.BRICK_STAIRS);
+        listOfMaterials.add(Material.BROWN_MUSHROOM);
+        listOfMaterials.add(Material.CACTUS);
+        listOfMaterials.add(Material.CAKE_BLOCK);
+        listOfMaterials.add(Material.CAULDRON);
+        listOfMaterials.add(Material.CHEST);
+        listOfMaterials.add(Material.COBBLE_WALL);
+        listOfMaterials.add(Material.COBBLESTONE_STAIRS);
+        listOfMaterials.add(Material.CROPS);
+        listOfMaterials.add(Material.DAYLIGHT_DETECTOR);
+        listOfMaterials.add(Material.DEAD_BUSH);
+        listOfMaterials.add(Material.DETECTOR_RAIL);
+        listOfMaterials.add(Material.DRAGON_EGG);
+        listOfMaterials.add(Material.DIODE_BLOCK_OFF);
+        listOfMaterials.add(Material.DIODE_BLOCK_ON);
+        listOfMaterials.add(Material.ENCHANTMENT_TABLE);
+        listOfMaterials.add(Material.ENDER_CHEST);
+        listOfMaterials.add(Material.FENCE);
+        listOfMaterials.add(Material.FENCE_GATE);
+        listOfMaterials.add(Material.FIRE);
+        listOfMaterials.add(Material.FLOWER_POT);
+        listOfMaterials.add(Material.GLASS);
+        listOfMaterials.add(Material.GLOWSTONE);
+        listOfMaterials.add(Material.GOLD_PLATE);
+        listOfMaterials.add(Material.ICE);
+        listOfMaterials.add(Material.IRON_FENCE);
+        listOfMaterials.add(Material.IRON_PLATE);
+        listOfMaterials.add(Material.JUNGLE_WOOD_STAIRS);
+        listOfMaterials.add(Material.LADDER);
+        listOfMaterials.add(Material.LAVA);
+        listOfMaterials.add(Material.LEAVES);
+        listOfMaterials.add(Material.LEVER);
+        listOfMaterials.add(Material.LOCKED_CHEST);
+        listOfMaterials.add(Material.LONG_GRASS);
+        listOfMaterials.add(Material.NETHER_BRICK_STAIRS);
+        listOfMaterials.add(Material.NETHER_FENCE);
+        listOfMaterials.add(Material.NETHER_STALK);
+        listOfMaterials.add(Material.NETHER_WARTS);
+        listOfMaterials.add(Material.PISTON_BASE);
+        listOfMaterials.add(Material.PISTON_EXTENSION);
+        listOfMaterials.add(Material.PISTON_MOVING_PIECE);
+        listOfMaterials.add(Material.PISTON_STICKY_BASE);
+        listOfMaterials.add(Material.POWERED_RAIL);
+        listOfMaterials.add(Material.PUMPKIN_STEM);
+        listOfMaterials.add(Material.QUARTZ_STAIRS);
+        listOfMaterials.add(Material.RAILS);
+        listOfMaterials.add(Material.REDSTONE_COMPARATOR_OFF);
+        listOfMaterials.add(Material.REDSTONE_COMPARATOR_ON);
+        listOfMaterials.add(Material.REDSTONE_TORCH_OFF);
+        listOfMaterials.add(Material.REDSTONE_TORCH_ON);
+        listOfMaterials.add(Material.REDSTONE_WIRE);
+        listOfMaterials.add(Material.RED_MUSHROOM);
+        listOfMaterials.add(Material.SANDSTONE_STAIRS);
+        listOfMaterials.add(Material.SAPLING);
+        listOfMaterials.add(Material.SIGN);
+        listOfMaterials.add(Material.SIGN_POST);
+        listOfMaterials.add(Material.SKULL);
+        listOfMaterials.add(Material.SMOOTH_STAIRS);
+        listOfMaterials.add(Material.SNOW);
+        listOfMaterials.add(Material.SPRUCE_WOOD_STAIRS);
+        listOfMaterials.add(Material.STATIONARY_LAVA);
+        listOfMaterials.add(Material.STATIONARY_WATER);
+        listOfMaterials.add(Material.STEP);
+        listOfMaterials.add(Material.STONE_BUTTON);
+        listOfMaterials.add(Material.STONE_PLATE);
+        listOfMaterials.add(Material.SUGAR_CANE_BLOCK);
+        listOfMaterials.add(Material.THIN_GLASS);
+        listOfMaterials.add(Material.TNT);
+        listOfMaterials.add(Material.TORCH);
+        listOfMaterials.add(Material.TRAPPED_CHEST);
+        listOfMaterials.add(Material.TRAP_DOOR);
+        listOfMaterials.add(Material.TRIPWIRE);
+        listOfMaterials.add(Material.TRIPWIRE_HOOK);
+        listOfMaterials.add(Material.TRAP_DOOR);
+        listOfMaterials.add(Material.VINE);
+        listOfMaterials.add(Material.WATER);
+        listOfMaterials.add(Material.WATER_LILY);
+        listOfMaterials.add(Material.WEB);
+        listOfMaterials.add(Material.WHEAT);
+        listOfMaterials.add(Material.WOOD_BUTTON);
+        listOfMaterials.add(Material.WOOD_PLATE);
+        listOfMaterials.add(Material.WOOD_STAIRS);
+        listOfMaterials.add(Material.WOOD_STEP);
+        listOfMaterials.add(Material.YELLOW_FLOWER);
     }
 
-    public ArrayList<Material> getMaterials() {
+    public List<Material> getMaterials() {
         return listOfMaterials;
     }
 }
