@@ -2,9 +2,6 @@
 *.classpath
 *.project
 
-.class
-.classpath
-.project
 .settings
-
-.pmd
+reports
+build.xml
