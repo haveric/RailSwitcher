@@ -18,8 +18,6 @@ import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 public class RailSwitcher extends JavaPlugin {
     public Logger log;
 
-    private final RSPlayerInteract playerInteract = new RSPlayerInteract(this);
-
     private Commands commands = new Commands(this);
 
     private static final int BLOCKS_VERSION = 6;
@@ -34,7 +32,7 @@ public class RailSwitcher extends JavaPlugin {
         log = getLogger();
 
         PluginManager pm = getServer().getPluginManager();
-        pm.registerEvents(playerInteract, this);
+        pm.registerEvents(new RSPlayerInteract(this), this);
 
         fileWriter = new CustomFileWriter(this, "Blocks");
         reload();

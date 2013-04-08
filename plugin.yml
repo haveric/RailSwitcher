@@ -8,6 +8,7 @@ description: >
              Switch placed rails with other types or directions
 commands:
   railswitcher:
+    aliases: [rs]
     description: Switch placed rails with other types or directions
     usage:
     
@@ -16,9 +17,9 @@ permissions:
         description: Gives access to all RailSwitcher Commands
         children:
             railswitcher.switch: true
-            railswitcher.adjust: true
+            railswitcher.admin: true
     railswitcher.switch:
-        description: Allows switching of rails with other types and rotating rails.
+        description: Allows switching of rail types and rotating rails.
         default: false
-    railswitcher.adjust:
-        description: Adjust config files. Allows use of /railswitcher reload
+    railswitcher.admin:
+        description: Allows use of admin commands.
