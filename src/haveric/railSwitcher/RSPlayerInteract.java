@@ -1,5 +1,7 @@
 package haveric.railSwitcher;
 
+import haveric.railSwitcher.guard.Guard;
+
 import java.util.HashSet;
 import java.util.List;
 

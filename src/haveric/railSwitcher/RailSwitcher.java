@@ -1,6 +1,7 @@
 package haveric.railSwitcher;
 
 import haveric.railSwitcher.fileWriter.CustomFileWriter;
+import haveric.railSwitcher.guard.Guard;
 import haveric.railSwitcher.mcstats.Metrics;
 
 import java.io.IOException;
@@ -13,6 +14,7 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.palmergames.bukkit.towny.Towny;
 import com.sk89q.worldguard.bukkit.WorldGuardPlugin;
 
 public class RailSwitcher extends JavaPlugin {
@@ -39,6 +41,8 @@ public class RailSwitcher extends JavaPlugin {
 
         // WorldGuard
         setupWorldGuard(pm);
+        // Towny
+        setupTowny(pm);
 
         getCommand(Commands.getMain()).setExecutor(commands);
 
@@ -56,6 +60,15 @@ public class RailSwitcher extends JavaPlugin {
             log.info(String.format("[%s] WorldGuard not found.", getDescription().getName()));
         } else {
             Guard.setWorldGuard((WorldGuardPlugin) worldGuard);
+        }
+    }
+
+    private void setupTowny(PluginManager pm) {
+        Plugin towny = pm.getPlugin("Towny");
+        if (towny ==  null || !(towny instanceof Towny)) {
+            log.info(String.format("[%s] Towny not found.", getDescription().getName()));
+        } else {
+            Guard.setTowny((Towny) towny);
         }
     }
 
