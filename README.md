@@ -4,13 +4,14 @@
 
 #### Changelog:
 
-#### Coming Soon:
+#### Version 1.0.4 (4/13/2013)
 * Removed extra TRAP_DOOR in default block list.
 * Changed permission node "railswitcher.adjust" to "railswitcher.admin".
 * Added "/rs" as an alias for "/railswitcher"
 * Added "railswitcher perms" command. Op's and Admin's can use these to see the plugin's permissions.
+* Added Towny support
 
-Version 1.0.3 (3/17/2013)
+#### Version 1.0.3 (3/17/2013)
 * Added permission to plugin.yml
 * Use plugin logger instead of Minecraft logger
 * Added Activator Rails

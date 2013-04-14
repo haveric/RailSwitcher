@@ -235,7 +235,7 @@ public class RSPlayerInteract implements Listener {
                             useItemInHand(player);
                         }
                     }
-                }
+                } // end Guard check
             } // end perm check
         }
     }
