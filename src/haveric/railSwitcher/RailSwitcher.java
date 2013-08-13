@@ -22,7 +22,7 @@ public class RailSwitcher extends JavaPlugin {
 
     private Commands commands = new Commands(this);
 
-    private static final int BLOCKS_VERSION = 6;
+    private static final int BLOCKS_VERSION = 7;
 
     private CustomFileWriter fileWriter;
     private List<Material> listOfMaterials;
@@ -102,6 +102,7 @@ public class RailSwitcher extends JavaPlugin {
         listOfMaterials.add(Material.BROWN_MUSHROOM);
         listOfMaterials.add(Material.CACTUS);
         listOfMaterials.add(Material.CAKE_BLOCK);
+        listOfMaterials.add(Material.CARPET);
         listOfMaterials.add(Material.CAULDRON);
         listOfMaterials.add(Material.CHEST);
         listOfMaterials.add(Material.COBBLE_WALL);
