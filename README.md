@@ -4,7 +4,7 @@
 
 #### Changelog:
 
-#### Version 1.0.5
+#### Version 1.0.5 (8/20/2013)
 * Updated Metrics to R7
 * Removed extra "[RailSwitcher]" being logged
 * Added carpet to default block list
