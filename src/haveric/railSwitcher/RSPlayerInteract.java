@@ -1,5 +1,6 @@
 package haveric.railSwitcher;
 
+import haveric.railSwitcher.blockLogger.BlockLogger;
 import haveric.railSwitcher.guard.Guard;
 
 import java.util.HashSet;
@@ -9,6 +10,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -79,7 +81,7 @@ public class RSPlayerInteract implements Listener {
                     inventory = player.getInventory();
 
                     int data = block.getData();
-
+                    BlockState oldState = block.getState();
                     int bx = block.getX();
                     int by = block.getY();
                     int bz = block.getZ();
@@ -235,6 +237,8 @@ public class RSPlayerInteract implements Listener {
                             useItemInHand(player);
                         }
                     }
+                    BlockState newState = block.getState();
+                    BlockLogger.logBlock(player.getName(), oldState, newState);
                 } // end Guard check
             } // end perm check
         }

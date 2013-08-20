@@ -8,6 +8,7 @@
 * Updated Metrics to R7
 * Removed extra "[RailSwitcher]" being logged
 * Added carpet to default block list
+* Added CoreProtect and LogBlock support
 
 #### Version 1.0.4 (4/13/2013)
 * Removed extra TRAP_DOOR in default block list.
