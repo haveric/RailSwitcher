@@ -4,6 +4,9 @@
 
 #### Changelog:
 
+#### Version 1.0.6
+* Removed Metrics as the service has been discontinued.
+
 #### Version 1.0.5 (8/20/2013)
 * Updated Metrics to R7
 * Removed extra "[RailSwitcher]" being logged
