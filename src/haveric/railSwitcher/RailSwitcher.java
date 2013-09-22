@@ -3,7 +3,9 @@ package haveric.railSwitcher;
 import haveric.railSwitcher.blockLogger.BlockLogger;
 import haveric.railSwitcher.fileWriter.CustomFileWriter;
 import haveric.railSwitcher.guard.Guard;
+import haveric.railSwitcher.mcstats.Metrics;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -32,6 +34,8 @@ public class RailSwitcher extends JavaPlugin {
     private CustomFileWriter fileWriter;
     private List<Material> listOfMaterials;
 
+    private Metrics metrics;
+
     @Override
     public void onEnable() {
         log = getLogger();
@@ -52,6 +56,8 @@ public class RailSwitcher extends JavaPlugin {
         setupLogBlock(pm);
 
         getCommand(Commands.getMain()).setExecutor(commands);
+
+        setupMetrics();
     }
 
     @Override
@@ -94,6 +100,16 @@ public class RailSwitcher extends JavaPlugin {
         } else {
             Consumer logBlockConsumer = ((LogBlock) logBlock).getConsumer();
             BlockLogger.setLogBlockConsumer(logBlockConsumer);
+        }
+    }
+
+    private void setupMetrics() {
+        try {
+            metrics = new Metrics(this);
+
+            metrics.start();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
