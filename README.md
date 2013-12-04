@@ -4,6 +4,9 @@
 
 #### Changelog:
 
+#### Coming Soon
+* Added 1.7 items to default block list
+
 #### Version 1.0.5 (8/20/2013)
 * Updated Metrics to R7
 * Removed extra "[RailSwitcher]" being logged
