@@ -5,7 +5,7 @@
 #### Changelog:
 
 #### Coming Soon
-* Added 1.7 items to default block list
+* Added 1.7 items to default block list (Backwards support for 1.6)
 
 #### Version 1.0.5 (8/20/2013)
 * Updated Metrics to R7

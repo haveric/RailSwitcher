@@ -121,7 +121,6 @@ public class RailSwitcher extends JavaPlugin {
 
     private void loadDefaultList() {
         listOfMaterials = new ArrayList<Material>();
-        listOfMaterials.add(Material.ACACIA_STAIRS);
         listOfMaterials.add(Material.ACTIVATOR_RAIL);
         listOfMaterials.add(Material.AIR);
         listOfMaterials.add(Material.ANVIL);
@@ -140,11 +139,9 @@ public class RailSwitcher extends JavaPlugin {
         listOfMaterials.add(Material.COBBLE_WALL);
         listOfMaterials.add(Material.COBBLESTONE_STAIRS);
         listOfMaterials.add(Material.CROPS);
-        listOfMaterials.add(Material.DARK_OAK_STAIRS);
         listOfMaterials.add(Material.DAYLIGHT_DETECTOR);
         listOfMaterials.add(Material.DEAD_BUSH);
         listOfMaterials.add(Material.DETECTOR_RAIL);
-        listOfMaterials.add(Material.DOUBLE_PLANT);
         listOfMaterials.add(Material.DRAGON_EGG);
         listOfMaterials.add(Material.DIODE_BLOCK_OFF);
         listOfMaterials.add(Material.DIODE_BLOCK_ON);
@@ -164,7 +161,6 @@ public class RailSwitcher extends JavaPlugin {
         listOfMaterials.add(Material.LADDER);
         listOfMaterials.add(Material.LAVA);
         listOfMaterials.add(Material.LEAVES);
-        listOfMaterials.add(Material.LEAVES_2);
         listOfMaterials.add(Material.LEVER);
         listOfMaterials.add(Material.LONG_GRASS);
         listOfMaterials.add(Material.NETHER_BRICK_STAIRS);
@@ -193,8 +189,6 @@ public class RailSwitcher extends JavaPlugin {
         listOfMaterials.add(Material.SMOOTH_STAIRS);
         listOfMaterials.add(Material.SNOW);
         listOfMaterials.add(Material.SPRUCE_WOOD_STAIRS);
-        listOfMaterials.add(Material.STAINED_GLASS);
-        listOfMaterials.add(Material.STAINED_GLASS_PANE);
         listOfMaterials.add(Material.STATIONARY_LAVA);
         listOfMaterials.add(Material.STATIONARY_WATER);
         listOfMaterials.add(Material.STEP);
@@ -218,6 +212,17 @@ public class RailSwitcher extends JavaPlugin {
         listOfMaterials.add(Material.WOOD_STAIRS);
         listOfMaterials.add(Material.WOOD_STEP);
         listOfMaterials.add(Material.YELLOW_FLOWER);
+
+        try {
+            listOfMaterials.add(Material.ACACIA_STAIRS);
+            listOfMaterials.add(Material.DARK_OAK_STAIRS);
+            listOfMaterials.add(Material.DOUBLE_PLANT);
+            listOfMaterials.add(Material.LEAVES_2);
+            listOfMaterials.add(Material.STAINED_GLASS);
+            listOfMaterials.add(Material.STAINED_GLASS_PANE);
+        } catch (NoSuchFieldError e) {
+            log.warning("1.7 blocks not found.");
+        }
     }
 
     public List<Material> getMaterials() {

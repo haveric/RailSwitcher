@@ -102,7 +102,10 @@ public class CustomFileWriter {
             if (customFile.length() > 0) {
                 matList = new ArrayList<Material>();
                 while (customScanner.hasNextLine()) {
-                    matList.add(Material.getMaterial(customScanner.nextLine()));
+                    Material mat = Material.getMaterial(customScanner.nextLine());
+                    if (mat != null) {
+                        matList.add(mat);
+                    }
                 }
             }
 
