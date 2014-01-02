@@ -199,7 +199,6 @@ public class RSPlayerInteract implements Listener {
                         }
                     } else if (type == Material.ACTIVATOR_RAIL) {
                         if (hand == Material.SHEARS || hand == Material.ACTIVATOR_RAIL) {
-                            plugin.log.info("Data: " + data);
                             if (data == 5) {
                                 block.setData((byte) 0);
                             } else if (data == 13) {

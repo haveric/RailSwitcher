@@ -1,6 +1,6 @@
 name: RailSwitcher
 main: haveric.railSwitcher.RailSwitcher
-version: 1.0.5
+version: 1.0.6
 author: haveric
 dev-url: http://dev.bukkit.org/server-mods/railswitcher/
 softdepend: [WorldGuard, Towny, CoreProtect, LogBlock]

@@ -4,7 +4,7 @@
 
 #### Changelog:
 
-#### Coming Soon
+#### Version 1.0.6 (1/1/2014)
 * Added 1.7 items to default block list (Backwards support for 1.6)
 
 #### Version 1.0.5 (8/20/2013)
