@@ -10,6 +10,7 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -119,6 +120,8 @@ public class RSPlayerInteract implements Listener {
                         }
                     } else if (type == Material.POWERED_RAIL) {
                         if (hand == Material.SHEARS || hand == Material.POWERED_RAIL) {
+                            //block.setType(Material.AIR);
+                            //block.setType(Material.POWERED_RAIL);
                             if (data == 5) {
                                 block.setData((byte) 0);
                             } else if (data == 13) {
@@ -220,6 +223,9 @@ public class RSPlayerInteract implements Listener {
                             useItemInHand(player);
                         }
                     }
+
+                    forceUpdate(block);
+
                     BlockState newState = block.getState();
                     BlockLogger.logBlock(player.getName(), oldState, newState);
                 } // end Guard check
@@ -227,6 +233,19 @@ public class RSPlayerInteract implements Listener {
         }
     }
 
+    // Force an update to the rail by changing the block it's sitting on and changing it back
+    private void forceUpdate(Block block) {
+        Block downBlock = block.getRelative(BlockFace.DOWN);
+        Material downType = downBlock.getType();
+
+        if (downType == Material.GRASS) {
+            downBlock.setType(Material.STONE);
+        } else {
+            downBlock.setType(Material.GRASS);
+        }
+
+        downBlock.setType(downType);
+    }
 
     private boolean canPlaceRail(Material m) {
         boolean canPlace = true;

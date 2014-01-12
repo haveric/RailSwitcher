@@ -4,6 +4,9 @@
 
 #### Changelog:
 
+#### Coming Soon
+* Swapping/Rotating rail will now update power correctly.
+
 #### Version 1.0.6 (1/1/2014)
 * Added 1.7 items to default block list (Backwards support for 1.6)
 
