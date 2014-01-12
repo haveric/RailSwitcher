@@ -107,13 +107,9 @@ public class RSPlayerInteract implements Listener {
                             }
                         } else {
                             block.breakNaturally();
-                            if (hand == Material.POWERED_RAIL) {
-                                block.setType(Material.POWERED_RAIL);
-                            } else if (hand == Material.DETECTOR_RAIL) {
-                                block.setType(Material.DETECTOR_RAIL);
-                            } else if (hand == Material.ACTIVATOR_RAIL) {
-                                block.setType(Material.ACTIVATOR_RAIL);
-                            }
+
+                            block.setType(hand);
+
                             if (data > 5) {
                                 data = 0;
                             }
@@ -145,13 +141,9 @@ public class RSPlayerInteract implements Listener {
                             }
                         } else {
                             block.breakNaturally();
-                            if (hand == Material.RAILS) {
-                                block.setType(Material.RAILS);
-                            } else if (hand == Material.DETECTOR_RAIL) {
-                                block.setType(Material.DETECTOR_RAIL);
-                            } else if (hand == Material.ACTIVATOR_RAIL) {
-                                block.setType(Material.ACTIVATOR_RAIL);
-                            }
+
+                            block.setType(hand);
+
                             if (data > 5) {
                                 data = 0;
                             }
@@ -183,13 +175,9 @@ public class RSPlayerInteract implements Listener {
                             }
                         } else {
                             block.breakNaturally();
-                            if (hand == Material.POWERED_RAIL) {
-                                block.setType(Material.POWERED_RAIL);
-                            } else if (hand == Material.RAILS) {
-                                block.setType(Material.RAILS);
-                            } else if (hand == Material.ACTIVATOR_RAIL) {
-                                block.setType(Material.ACTIVATOR_RAIL);
-                            }
+
+                            block.setType(hand);
+
                             if (data > 5) {
                                 data = 0;
                             }
@@ -221,13 +209,9 @@ public class RSPlayerInteract implements Listener {
                             }
                         } else {
                             block.breakNaturally();
-                            if (hand == Material.POWERED_RAIL) {
-                                block.setType(Material.POWERED_RAIL);
-                            } else if (hand == Material.RAILS) {
-                                block.setType(Material.RAILS);
-                            } else if (hand == Material.DETECTOR_RAIL) {
-                                block.setType(Material.DETECTOR_RAIL);
-                            }
+
+                            block.setType(hand);
+
                             if (data > 5) {
                                 data = 0;
                             }
