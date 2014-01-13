@@ -4,7 +4,7 @@
 
 #### Changelog:
 
-#### Coming Soon
+#### Version 1.0.7 (1/12/2014)
 * Swapping/Rotating rail will now update power correctly in most cases.
 
 #### Version 1.0.6 (1/1/2014)
