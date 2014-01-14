@@ -87,7 +87,7 @@ public class RSPlayerInteract implements Listener {
                     int by = block.getY();
                     int bz = block.getZ();
                     if (type == Material.RAILS) {
-                        if (hand == Material.SHEARS || hand == Material.RAILS) {
+                        if (hand == Material.SHEARS || hand == type) {
                             if (data == 9) {
                                 block.setData((byte) 0);
                             } else {
@@ -118,78 +118,8 @@ public class RSPlayerInteract implements Listener {
 
                             useItemInHand(player);
                         }
-                    } else if (type == Material.POWERED_RAIL) {
-                        if (hand == Material.SHEARS || hand == Material.POWERED_RAIL) {
-                            //block.setType(Material.AIR);
-                            //block.setType(Material.POWERED_RAIL);
-                            if (data == 5) {
-                                block.setData((byte) 0);
-                            } else if (data == 13) {
-                                block.setData((byte) 8);
-                            } else {
-                                if ((data == 1 || data == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    data++;
-                                }
-                                if ((data == 2 || data == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    data++;
-                                }
-                                if ((data == 3 || data == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    data++;
-                                }
-                                if ((data == 4 || data == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    block.setData((byte) 0);
-                                    return;
-                                }
-                                block.setData((byte) (data + 1));
-                            }
-                        } else {
-                            block.breakNaturally();
-
-                            block.setType(hand);
-
-                            if (data > 5) {
-                                data = 0;
-                            }
-                            block.setData((byte) data);
-
-                            useItemInHand(player);
-                        }
-                    } else if (type == Material.DETECTOR_RAIL) {
-                        if (hand == Material.SHEARS || hand == Material.DETECTOR_RAIL) {
-                            if (data == 5) {
-                                block.setData((byte) 0);
-                            } else if (data == 13) {
-                                block.setData((byte) 8);
-                            } else {
-                                if ((data == 1 || data == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    data++;
-                                }
-                                if ((data == 2 || data == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    data++;
-                                }
-                                if ((data == 3 || data == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    data++;
-                                }
-                                if ((data == 4 || data == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    block.setData((byte) 0);
-                                    return;
-                                }
-                                block.setData((byte) (data + 1));
-                            }
-                        } else {
-                            block.breakNaturally();
-
-                            block.setType(hand);
-
-                            if (data > 5) {
-                                data = 0;
-                            }
-                            block.setData((byte) data);
-
-                            useItemInHand(player);
-                        }
-                    } else if (type == Material.ACTIVATOR_RAIL) {
-                        if (hand == Material.SHEARS || hand == Material.ACTIVATOR_RAIL) {
+                    } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
+                        if (hand == Material.SHEARS || hand == type) {
                             if (data == 5) {
                                 block.setData((byte) 0);
                             } else if (data == 13) {
