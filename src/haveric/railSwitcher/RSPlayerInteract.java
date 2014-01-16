@@ -82,79 +82,86 @@ public class RSPlayerInteract implements Listener {
                     inventory = player.getInventory();
 
                     int data = block.getData();
+                    int newData = data;
+                    boolean swapRail = false;
+
                     BlockState oldState = block.getState();
                     int bx = block.getX();
                     int by = block.getY();
                     int bz = block.getZ();
                     if (type == Material.RAILS) {
                         if (hand == Material.SHEARS || hand == type) {
-                            if (data == 9) {
-                                block.setData((byte) 0);
+                            if (newData == 9) {
+                                newData = 0;
                             } else {
-                                if (data == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    data++;
+                                if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                                    newData++;
                                 }
-                                if (data == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    data++;
+                                if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                                    newData++;
                                 }
-                                if (data == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    data++;
+                                if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                                    newData++;
                                 }
-                                if (data == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    data++;
+                                if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                                    newData++;
                                 }
 
-                                block.setData((byte) (data + 1));
+                                newData += 1;
                             }
                         } else {
-                            block.breakNaturally();
-
-                            block.setType(hand);
-
-                            if (data > 5) {
-                                data = 0;
-                            }
-                            block.setData((byte) data);
-
-                            useItemInHand(player);
+                            swapRail = true;
                         }
                     } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
                         if (hand == Material.SHEARS || hand == type) {
-                            if (data == 5) {
-                                block.setData((byte) 0);
-                            } else if (data == 13) {
-                                block.setData((byte) 8);
+                            if (newData == 5) {
+                                newData = 0;
+                            //TODO: Find next actual valid location instead of hard coding values
+                            } else if (newData == 13) {
+                                //newData = 8;
+                                newData = 9;
                             } else {
-                                if ((data == 1 || data == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    data++;
+                                if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                                    newData++;
                                 }
-                                if ((data == 2 || data == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    data++;
+                                if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                                    newData++;
                                 }
-                                if ((data == 3 || data == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    data++;
+                                if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                                    newData++;
                                 }
-                                if ((data == 4 || data == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    block.setData((byte) 0);
-                                    return;
+                                if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                                    if (data == 4 || data == 12) {
+                                        //newData = 0;
+                                        newData = 1;
+                                    } else {
+                                        newData = 0;
+                                    }
+                                } else {
+                                    newData += 1;
                                 }
-                                block.setData((byte) (data + 1));
                             }
                         } else {
-                            block.breakNaturally();
-
-                            block.setType(hand);
-
-                            if (data > 5) {
-                                data = 0;
-                            }
-                            block.setData((byte) data);
-
-                            useItemInHand(player);
+                            swapRail = true;
                         }
                     }
 
-                    forceUpdate(block);
+                    plugin.log.info("Data: " + data + ", New Data: " + newData);
+
+                    if (swapRail) {
+                        block.breakNaturally();
+
+                        block.setType(hand);
+
+                        if (newData > 5) {
+                            newData = 0;
+                        }
+
+                        useItemInHand(player);
+                    } else {
+                        block.setData((byte) newData);
+                    }
+                    forceUpdate(block, data, newData);
 
                     BlockState newState = block.getState();
                     BlockLogger.logBlock(player.getName(), oldState, newState);
@@ -164,7 +171,7 @@ public class RSPlayerInteract implements Listener {
     }
 
     // Force an update to the rail by changing the block it's sitting on and changing it back
-    private void forceUpdate(Block block) {
+    private void forceUpdate(Block block, int oldState, int newState) {
         Block downBlock = block.getRelative(BlockFace.DOWN);
         Material downType = downBlock.getType();
 
@@ -175,6 +182,61 @@ public class RSPlayerInteract implements Listener {
         }
 
         downBlock.setType(downType);
+
+        // Handle switching from a slope
+        Block nextBlock = null;
+        if (oldState == 2 || oldState == 10) {
+            nextBlock = block.getRelative(BlockFace.EAST);
+        } else if (oldState == 3 || oldState == 11) {
+            nextBlock = block.getRelative(BlockFace.WEST);
+        } else if (oldState == 4 || oldState == 12) {
+            nextBlock = block.getRelative(BlockFace.NORTH);
+        } else if (oldState == 5 || oldState == 13) {
+            nextBlock = block.getRelative(BlockFace.SOUTH);
+        }
+
+        if (nextBlock != null) {
+            Block nextUpBlock = nextBlock.getRelative(BlockFace.UP);
+            Material nextUpType = nextUpBlock.getType();
+            if (nextUpType == Material.RAILS || nextUpType == Material.POWERED_RAIL || nextUpType == Material.ACTIVATOR_RAIL || nextUpType == Material.DETECTOR_RAIL) {
+                Material nextType = nextBlock.getType();
+                if (nextType == Material.GRASS) {
+                    nextBlock.setType(Material.STONE);
+                } else {
+                    nextBlock.setType(Material.GRASS);
+                }
+
+                nextBlock.setType(nextType);
+            }
+        }
+
+
+        // Handle switching to a slope
+        nextBlock = null;
+        if (newState == 2 || newState == 10) {
+            nextBlock = block.getRelative(BlockFace.EAST);
+        } else if (newState == 3 || newState == 11) {
+            nextBlock = block.getRelative(BlockFace.WEST);
+        } else if (newState == 4 || newState == 12) {
+            nextBlock = block.getRelative(BlockFace.NORTH);
+        } else if (newState == 5 || newState == 13) {
+            nextBlock = block.getRelative(BlockFace.SOUTH);
+        }
+
+        if (nextBlock != null) {
+            Block nextUpBlock = nextBlock.getRelative(BlockFace.UP);
+            Material nextUpType = nextUpBlock.getType();
+            if (nextUpType == Material.RAILS || nextUpType == Material.POWERED_RAIL || nextUpType == Material.ACTIVATOR_RAIL || nextUpType == Material.DETECTOR_RAIL) {
+                Material nextType = nextBlock.getType();
+                if (nextType == Material.GRASS) {
+                    nextBlock.setType(Material.STONE);
+                } else {
+                    nextBlock.setType(Material.GRASS);
+                }
+
+                nextBlock.setType(nextType);
+            }
+        }
     }
 
     private boolean canPlaceRail(Material m) {
