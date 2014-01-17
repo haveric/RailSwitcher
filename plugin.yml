@@ -1,6 +1,6 @@
 name: RailSwitcher
 main: haveric.railSwitcher.RailSwitcher
-version: 1.0.7
+version: 1.0.8beta
 author: haveric
 dev-url: http://dev.bukkit.org/server-mods/railswitcher/
 description: >

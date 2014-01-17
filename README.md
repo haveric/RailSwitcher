@@ -4,9 +4,9 @@
 
 #### Changelog:
 
-#### Coming soon
+#### Version 1.0.8beta (1/16/2014)
 * Fixed more power updating issues.
-* Support for all protection and block logging plugins.
+* Support for all protection and block logging plugins. (Hopefully)
 
 #### Version 1.0.7 (1/12/2014)
 * Swapping/Rotating rail will now update power correctly in most cases.
