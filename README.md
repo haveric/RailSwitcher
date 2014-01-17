@@ -6,6 +6,7 @@
 
 #### Coming soon
 * Fixed more power updating issues.
+* Support for all protection and block logging plugins.
 
 #### Version 1.0.7 (1/12/2014)
 * Swapping/Rotating rail will now update power correctly in most cases.

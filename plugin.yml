@@ -3,7 +3,6 @@ main: haveric.railSwitcher.RailSwitcher
 version: 1.0.7
 author: haveric
 dev-url: http://dev.bukkit.org/server-mods/railswitcher/
-softdepend: [WorldGuard, Towny, CoreProtect, LogBlock]
 description: >
              Switch placed rails with other types or directions
 commands:

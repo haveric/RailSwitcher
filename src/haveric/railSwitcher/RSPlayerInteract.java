@@ -1,8 +1,5 @@
 package haveric.railSwitcher;
 
-import haveric.railSwitcher.blockLogger.BlockLogger;
-import haveric.railSwitcher.guard.Guard;
-
 import java.util.HashSet;
 import java.util.List;
 
@@ -16,6 +13,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
@@ -77,7 +75,7 @@ public class RSPlayerInteract implements Listener {
             if (Perms.canSwitch(player)) {
                 World world = player.getWorld();
 
-                if (Guard.canPlace(player, block.getLocation())) {
+                //if (Guard.canPlace(player, block.getLocation())) {
                     Material type = block.getType();
                     inventory = player.getInventory();
 
@@ -151,6 +149,19 @@ public class RSPlayerInteract implements Listener {
                     if (swapRail) {
                         block.breakNaturally();
 
+                        if (newData > 5) {
+                            newData = 0;
+                        }
+                        replaceBlock(player, block, hand, newData);
+                        useItemInHand(player);
+                    } else {
+                        replaceBlock(player, block, type, newData);
+                    }
+                    forceUpdate(block, data, newData);
+                    /*
+                    if (swapRail) {
+                        block.breakNaturally();
+
                         block.setType(hand);
 
                         if (newData > 5) {
@@ -165,9 +176,33 @@ public class RSPlayerInteract implements Listener {
 
                     BlockState newState = block.getState();
                     BlockLogger.logBlock(player.getName(), oldState, newState);
-                } // end Guard check
+                    */
+                //} // end Guard check
             } // end perm check
         }
+    }
+
+    public boolean replaceBlock(Player player, Block block, Material mat, int data) {
+        boolean success = false;
+        //BlockBreakEvent breakEvent = new BlockBreakEvent(block, player);
+        //plugin.getServer().getPluginManager().callEvent(breakEvent);
+
+        //if (!breakEvent.isCancelled()) {
+            //breakEvent.setCancelled(true);
+
+            Block previousBlock = block;
+
+            block.setType(mat);
+            block.setData((byte) data);
+
+            BlockPlaceEvent placeEvent = new BlockPlaceEvent(block, previousBlock.getState(), previousBlock, player.getItemInHand(), player, true);
+            plugin.getServer().getPluginManager().callEvent(placeEvent);
+            if (!placeEvent.isCancelled()) {
+                success = true;
+            }
+        //}
+
+        return success;
     }
 
     // Force an update to the rail by changing the block it's sitting on and changing it back
