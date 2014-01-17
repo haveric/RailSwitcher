@@ -8,7 +8,6 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -47,13 +46,7 @@ public class RSPlayerInteract implements Listener {
             if (hand == Material.RAILS || hand == Material.POWERED_RAIL || hand == Material.DETECTOR_RAIL || hand == Material.ACTIVATOR_RAIL) {
                 final int dist = 5;
 
-                HashSet<Byte> transparent = new HashSet<Byte>();
-                transparent.add((byte) Material.AIR.getId());
-                transparent.add((byte) Material.RAILS.getId());
-                transparent.add((byte) Material.POWERED_RAIL.getId());
-                transparent.add((byte) Material.DETECTOR_RAIL.getId());
-                transparent.add((byte) Material.ACTIVATOR_RAIL.getId());
-                List<Block> blocks = player.getLineOfSight(transparent, dist);
+                List<Block> blocks = player.getLineOfSight(transparentBlocks, dist);
 
                 for (int l = blocks.size(), i = l; i > 0; i--) {
                     Block tempBlock = blocks.get(i - 1);
@@ -75,132 +68,105 @@ public class RSPlayerInteract implements Listener {
             if (Perms.canSwitch(player)) {
                 World world = player.getWorld();
 
-                //if (Guard.canPlace(player, block.getLocation())) {
-                    Material type = block.getType();
-                    inventory = player.getInventory();
+                Material type = block.getType();
+                inventory = player.getInventory();
 
-                    int data = block.getData();
-                    int newData = data;
-                    boolean swapRail = false;
+                int data = block.getData();
+                int newData = data;
+                boolean swapRail = false;
 
-                    BlockState oldState = block.getState();
-                    int bx = block.getX();
-                    int by = block.getY();
-                    int bz = block.getZ();
-                    if (type == Material.RAILS) {
-                        if (hand == Material.SHEARS || hand == type) {
-                            if (newData == 9) {
-                                newData = 0;
+                int bx = block.getX();
+                int by = block.getY();
+                int bz = block.getZ();
+                if (type == Material.RAILS) {
+                    if (hand == Material.SHEARS || hand == type) {
+                        if (newData == 9) {
+                            newData = 0;
+                        } else {
+                            if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                                newData++;
+                            }
+                            if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                                newData++;
+                            }
+                            if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                                newData++;
+                            }
+                            if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                                newData++;
+                            }
+
+                            newData += 1;
+                        }
+                    } else {
+                        swapRail = true;
+                    }
+                } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
+                    if (hand == Material.SHEARS || hand == type) {
+                        if (newData == 5) {
+                            newData = 0;
+                        //TODO: Find next actual valid location instead of hard coding values
+                        } else if (newData == 13) {
+                            //newData = 8;
+                            newData = 9;
+                        } else {
+                            if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                                newData++;
+                            }
+                            if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                                newData++;
+                            }
+                            if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                                newData++;
+                            }
+                            if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                                if (data == 4 || data == 12) {
+                                    //newData = 0;
+                                    newData = 1;
+                                } else {
+                                    newData = 0;
+                                }
                             } else {
-                                if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    newData++;
-                                }
-                                if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    newData++;
-                                }
-                                if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    newData++;
-                                }
-                                if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    newData++;
-                                }
-
                                 newData += 1;
                             }
-                        } else {
-                            swapRail = true;
                         }
-                    } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
-                        if (hand == Material.SHEARS || hand == type) {
-                            if (newData == 5) {
-                                newData = 0;
-                            //TODO: Find next actual valid location instead of hard coding values
-                            } else if (newData == 13) {
-                                //newData = 8;
-                                newData = 9;
-                            } else {
-                                if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                    newData++;
-                                }
-                                if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                    newData++;
-                                }
-                                if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                    newData++;
-                                }
-                                if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                    if (data == 4 || data == 12) {
-                                        //newData = 0;
-                                        newData = 1;
-                                    } else {
-                                        newData = 0;
-                                    }
-                                } else {
-                                    newData += 1;
-                                }
-                            }
-                        } else {
-                            swapRail = true;
-                        }
-                    }
-
-                    plugin.log.info("Data: " + data + ", New Data: " + newData);
-
-                    if (swapRail) {
-                        block.breakNaturally();
-
-                        if (newData > 5) {
-                            newData = 0;
-                        }
-                        replaceBlock(player, block, hand, newData);
-                        useItemInHand(player);
                     } else {
-                        replaceBlock(player, block, type, newData);
+                        swapRail = true;
                     }
-                    forceUpdate(block, data, newData);
-                    /*
-                    if (swapRail) {
-                        block.breakNaturally();
+                }
 
-                        block.setType(hand);
+                //plugin.log.info("Data: " + data + ", New Data: " + newData);
 
-                        if (newData > 5) {
-                            newData = 0;
-                        }
+                if (swapRail) {
+                    block.breakNaturally();
 
-                        useItemInHand(player);
-                    } else {
-                        block.setData((byte) newData);
+                    if (newData > 5) {
+                        newData = 0;
                     }
-                    forceUpdate(block, data, newData);
+                    replaceBlock(player, block, hand, newData);
+                    useItemInHand(player);
+                } else {
+                    replaceBlock(player, block, type, newData);
+                }
 
-                    BlockState newState = block.getState();
-                    BlockLogger.logBlock(player.getName(), oldState, newState);
-                    */
-                //} // end Guard check
+                forceUpdate(block, data, newData);
             } // end perm check
         }
     }
 
     public boolean replaceBlock(Player player, Block block, Material mat, int data) {
         boolean success = false;
-        //BlockBreakEvent breakEvent = new BlockBreakEvent(block, player);
-        //plugin.getServer().getPluginManager().callEvent(breakEvent);
 
-        //if (!breakEvent.isCancelled()) {
-            //breakEvent.setCancelled(true);
+        Block previousBlock = block;
 
-            Block previousBlock = block;
+        block.setType(mat);
+        block.setData((byte) data);
 
-            block.setType(mat);
-            block.setData((byte) data);
-
-            BlockPlaceEvent placeEvent = new BlockPlaceEvent(block, previousBlock.getState(), previousBlock, player.getItemInHand(), player, true);
-            plugin.getServer().getPluginManager().callEvent(placeEvent);
-            if (!placeEvent.isCancelled()) {
-                success = true;
-            }
-        //}
+        BlockPlaceEvent placeEvent = new BlockPlaceEvent(block, previousBlock.getState(), previousBlock, player.getItemInHand(), player, true);
+        plugin.getServer().getPluginManager().callEvent(placeEvent);
+        if (!placeEvent.isCancelled()) {
+            success = true;
+        }
 
         return success;
     }
