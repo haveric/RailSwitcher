@@ -8,6 +8,7 @@ import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -135,37 +136,46 @@ public class RSPlayerInteract implements Listener {
                     }
                 }
 
-                //plugin.log.info("Data: " + data + ", New Data: " + newData);
-
+                boolean success = false;
                 if (swapRail) {
-                    block.breakNaturally();
-
                     if (newData > 5) {
                         newData = 0;
                     }
-                    replaceBlock(player, block, hand, newData);
-                    useItemInHand(player);
-                } else {
-                    replaceBlock(player, block, type, newData);
-                }
 
-                forceUpdate(block, data, newData);
+                    success = replaceBlock(player, block, hand, newData, true);
+                } else {
+                    success = replaceBlock(player, block, type, newData, false);
+                }
+                if (success) {
+                    forceUpdate(block, data, newData);
+                }
             } // end perm check
         }
     }
 
-    public boolean replaceBlock(Player player, Block block, Material mat, int data) {
+    public boolean replaceBlock(Player player, Block block, Material mat, int data, boolean breakBlock) {
         boolean success = false;
 
-        Block previousBlock = block;
-
+        BlockState state = block.getState();
         block.setType(mat);
         block.setData((byte) data);
 
-        BlockPlaceEvent placeEvent = new BlockPlaceEvent(block, previousBlock.getState(), previousBlock, player.getItemInHand(), player, true);
+        BlockPlaceEvent placeEvent = new BlockPlaceEvent(state.getBlock(), state, block, player.getItemInHand(), player, true);
         plugin.getServer().getPluginManager().callEvent(placeEvent);
-        if (!placeEvent.isCancelled()) {
+        if (placeEvent.isCancelled()) {
+            state.update(true);
+        } else {
             success = true;
+            if (breakBlock) {
+                // Reset back to original block so we can break it
+                state.update(true);
+                block.breakNaturally();
+
+                useItemInHand(player);
+
+                block.setType(mat);
+                block.setData((byte) data);
+            }
         }
 
         return success;
