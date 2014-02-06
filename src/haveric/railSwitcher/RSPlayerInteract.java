@@ -265,7 +265,7 @@ public class RSPlayerInteract implements Listener {
     }
 
     private void useItemInHand(Player player) {
-        if (player.getGameMode() == GameMode.SURVIVAL) {
+        if (player.getGameMode() != GameMode.CREATIVE) {
             int amt = holding.getAmount();
             if (amt > 1) {
                 holding.setAmount(--amt);
