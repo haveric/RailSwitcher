@@ -87,7 +87,14 @@ public class CustomFileWriter {
             listScanner.next();
             listScanner.nextInt();
             while(listScanner.hasNextLine()) {
-                matList.add(Material.getMaterial(listScanner.nextLine()));
+                String line = listScanner.nextLine();
+                Material mat = Material.getMaterial(line);
+                if (mat == null) {
+                    plugin.log.warning("Default File - Material does not exist: '" + line + "'");
+                } else {
+                    matList.add(mat);
+                }
+
             }
 
             listScanner.close();
@@ -102,8 +109,11 @@ public class CustomFileWriter {
             if (customFile.length() > 0) {
                 matList = new ArrayList<Material>();
                 while (customScanner.hasNextLine()) {
-                    Material mat = Material.getMaterial(customScanner.nextLine());
-                    if (mat != null) {
+                    String line = customScanner.nextLine();
+                    Material mat = Material.getMaterial(line);
+                    if (mat == null) {
+                        plugin.log.warning("Custom File - Material does not exist: '" + line + "'");
+                    } else {
                         matList.add(mat);
                     }
                 }
