@@ -6,6 +6,7 @@
 
 #### Coming Soon
 * Remove items from all non-creative GameModes and not just survival
+* Added a warning for when older blocks are missing.
 
 #### Version 1.0.8 (1/17/2014)
 * Fixed more power updating issues.
