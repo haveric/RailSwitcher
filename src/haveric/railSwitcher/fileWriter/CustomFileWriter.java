@@ -23,7 +23,7 @@ public class CustomFileWriter {
 
     private List<Material> matList;
 
-    String fileName;
+    private String fileName;
 
     public CustomFileWriter(RailSwitcher si, String name) {
         plugin = si;
@@ -86,7 +86,7 @@ public class CustomFileWriter {
 
             listScanner.next();
             listScanner.nextInt();
-            while(listScanner.hasNextLine()) {
+            while (listScanner.hasNextLine()) {
                 String line = listScanner.nextLine();
                 Material mat = Material.getMaterial(line);
                 if (mat == null) {
