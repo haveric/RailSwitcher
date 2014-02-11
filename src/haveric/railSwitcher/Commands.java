@@ -8,7 +8,7 @@ import org.bukkit.entity.Player;
 
 public class Commands implements CommandExecutor {
 
-    RailSwitcher plugin;
+    private RailSwitcher plugin;
 
     private static String cmdMain = "railswitcher";
     private String cmdMainAlt = "rs";
