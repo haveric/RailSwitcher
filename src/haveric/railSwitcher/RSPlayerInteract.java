@@ -16,14 +16,11 @@ import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.PlayerInventory;
 
 public class RSPlayerInteract implements Listener {
 
     private RailSwitcher plugin;
 
-    private ItemStack holding;
-    private PlayerInventory inventory;
     private HashSet<Byte> transparentBlocks = new HashSet<Byte>();
 
     public RSPlayerInteract(RailSwitcher rs) {
@@ -39,8 +36,7 @@ public class RSPlayerInteract implements Listener {
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        holding = player.getItemInHand();
-        Material hand = holding.getType();
+        Material hand = player.getItemInHand().getType();
 
         Block block = null;
         if (event.getAction() == Action.RIGHT_CLICK_AIR) {
@@ -70,7 +66,6 @@ public class RSPlayerInteract implements Listener {
                 World world = player.getWorld();
 
                 Material type = block.getType();
-                inventory = player.getInventory();
 
                 int data = block.getData();
                 int newData = data;
@@ -266,11 +261,13 @@ public class RSPlayerInteract implements Listener {
 
     private void useItemInHand(Player player) {
         if (player.getGameMode() != GameMode.CREATIVE) {
+            ItemStack holding = player.getItemInHand();
+
             int amt = holding.getAmount();
             if (amt > 1) {
                 holding.setAmount(--amt);
             } else {
-                inventory.setItemInHand(null);
+                player.getInventory().setItemInHand(null);
             }
         }
     }
