@@ -31,6 +31,9 @@ public class RailSwitcher extends JavaPlugin {
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(new RSPlayerInteract(this), this);
 
+        Config.init(this);
+        Config.setup();
+
         fileWriter = new CustomFileWriter(this, "Blocks");
         reload();
 

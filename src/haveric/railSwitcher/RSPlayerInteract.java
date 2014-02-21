@@ -56,7 +56,7 @@ public class RSPlayerInteract implements Listener {
                 }
             }
         } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (hand == Material.SHEARS) {
+            if (hand == Config.getRotateTool()) {
                 block = event.getClickedBlock();
             }
         }
@@ -75,7 +75,7 @@ public class RSPlayerInteract implements Listener {
                 int by = block.getY();
                 int bz = block.getZ();
                 if (type == Material.RAILS) {
-                    if (hand == Material.SHEARS || hand == type) {
+                    if (hand == Config.getRotateTool() || hand == type) {
                         if (newData == 9) {
                             newData = 0;
                         } else {
@@ -98,7 +98,7 @@ public class RSPlayerInteract implements Listener {
                         swapRail = true;
                     }
                 } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
-                    if (hand == Material.SHEARS || hand == type) {
+                    if (hand == Config.getRotateTool() || hand == type) {
                         if (newData == 5) {
                             newData = 0;
                         //TODO: Find next actual valid location instead of hard coding values

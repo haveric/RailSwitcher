@@ -9,6 +9,7 @@
 * Added a warning for when older blocks are missing.
 * Added null check for materials from default file.
 * Log any materials that do not exist to the console.
+* Added config.yml with configurable rotate tool
 
 #### Version 1.0.8 (1/17/2014)
 * Fixed more power updating issues.
