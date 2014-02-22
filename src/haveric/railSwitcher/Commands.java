@@ -48,6 +48,7 @@ public class Commands implements CommandExecutor {
             } else if (args.length == 1 && args[0].equalsIgnoreCase(cmdReload)) {
                 if (op || hasAdminPerm) {
                     plugin.reload();
+                    Config.reload();
                     sender.sendMessage(title + "Configuration files reloaded.");
                 } else {
                     sender.sendMessage(title + "You do not have permission to reload the config files.");
