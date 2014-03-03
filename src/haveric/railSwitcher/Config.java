@@ -41,7 +41,6 @@ public class Config {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-
     }
 
     public static void setup() {

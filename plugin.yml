@@ -17,8 +17,21 @@ permissions:
         children:
             railswitcher.switch: true
             railswitcher.admin: true
-    railswitcher.switch:
-        description: Allows switching of rail types and rotating rails.
-        default: false
     railswitcher.admin:
         description: Allows use of admin commands.
+    railswitcher.switch:
+        description: Allows switching of rail types and rotating rails.
+        children:
+            railswitcher.swap: true
+            railswitcher.rotate.*: true
+    railswitcher.swap:
+        description: Allows swapping of rails when holding a different rail type in hand.
+    railswitcher.rotate.*:
+        description: Allows rotating rails
+        children:
+            railswitcher.rotate.tool: true
+            railswitcher.rotate.rail: true
+    railswitcher.rotate.tool:
+        description: Allows rotating rails using the configured tool in hand.
+    railswitcher.rotate.rail:
+        description: Allows rotating rails using the same rail type in hand.

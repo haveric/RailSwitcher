@@ -24,6 +24,7 @@ public class Commands implements CommandExecutor {
     @Override
     public boolean onCommand(CommandSender sender, Command cmd, String commandLabel, String[] args) {
         ChatColor msgColor = ChatColor.DARK_AQUA;
+        ChatColor highlightColor = ChatColor.YELLOW;
 
         String title = msgColor + "[" + ChatColor.GRAY + plugin.getDescription().getName() + msgColor + "] ";
 
@@ -56,7 +57,10 @@ public class Commands implements CommandExecutor {
             } else if (args.length == 1 && (args[0].equalsIgnoreCase(cmdPerms) || args[0].equalsIgnoreCase(cmdPermsAlt))) {
                 if (op || hasAdminPerm) {
                     sender.sendMessage(title + "Permission nodes:");
-                    sender.sendMessage(Perms.getPermSwitch() + " - " + msgColor + "Allows switching of rail types and rotating rails.");
+                    sender.sendMessage(Perms.getPermSwitch() + " - " + msgColor + "Sets all swap and rotate permissions to true");
+                    sender.sendMessage(Perms.getPermSwap() + " - " + msgColor + "Allows swapping of rail types.");
+                    sender.sendMessage(Perms.getPermRotateByTool() + " - " + msgColor + "Allows rotating rails with " + highlightColor + Config.getRotateTool());
+                    sender.sendMessage(Perms.getPermRotateByRail() + " - " + msgColor + "Allows rotating rails with the same rail type");
                     sender.sendMessage(Perms.getPermAdmin() + " - " + msgColor + "Allows use of admin commands.");
                 } else {
                     sender.sendMessage(title + ChatColor.RED + "You must be an op or have admin perms to see permission nodes.");

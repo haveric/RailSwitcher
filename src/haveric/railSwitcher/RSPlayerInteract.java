@@ -62,89 +62,82 @@ public class RSPlayerInteract implements Listener {
         }
 
         if (block != null) {
-            if (Perms.canSwitch(player)) {
-                World world = player.getWorld();
+            World world = player.getWorld();
 
-                Material type = block.getType();
+            Material type = block.getType();
 
-                int data = block.getData();
-                int newData = data;
-                boolean swapRail = false;
+            int data = block.getData();
+            int newData = data;
 
-                int bx = block.getX();
-                int by = block.getY();
-                int bz = block.getZ();
+            int bx = block.getX();
+            int by = block.getY();
+            int bz = block.getZ();
+            if ((Perms.canRotateByRail(player) && hand == type) || (Perms.canRotateByTool(player) && hand == Config.getRotateTool())) {
                 if (type == Material.RAILS) {
-                    if (hand == Config.getRotateTool() || hand == type) {
-                        if (newData == 9) {
-                            newData = 0;
-                        } else {
-                            if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                newData++;
-                            }
-                            if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                newData++;
-                            }
-                            if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                newData++;
-                            }
-                            if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                newData++;
-                            }
-
-                            newData += 1;
-                        }
+                    if (newData == 9) {
+                        newData = 0;
                     } else {
-                        swapRail = true;
+                        if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                            newData++;
+                        }
+                        if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                            newData++;
+                        }
+                        if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                            newData++;
+                        }
+                        if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                            newData++;
+                        }
+
+                        newData += 1;
                     }
                 } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
-                    if (hand == Config.getRotateTool() || hand == type) {
-                        if (newData == 5) {
-                            newData = 0;
-                        //TODO: Find next actual valid location instead of hard coding values
-                        } else if (newData == 13) {
-                            //newData = 8;
-                            newData = 9;
-                        } else {
-                            if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
-                                newData++;
-                            }
-                            if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
-                                newData++;
-                            }
-                            if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
-                                newData++;
-                            }
-                            if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
-                                if (data == 4 || data == 12) {
-                                    //newData = 0;
-                                    newData = 1;
-                                } else {
-                                    newData = 0;
-                                }
-                            } else {
-                                newData += 1;
-                            }
-                        }
-                    } else {
-                        swapRail = true;
-                    }
-                }
-
-                boolean success = false;
-                if (swapRail) {
-                    if (newData > 5) {
+                    if (newData == 5) {
                         newData = 0;
+                    //TODO: Find next actual valid location instead of hard coding values
+                    } else if (newData == 13) {
+                        //newData = 8;
+                        newData = 9;
+                    } else {
+                        if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                            newData++;
+                        }
+                        if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                            newData++;
+                        }
+                        if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                            newData++;
+                        }
+                        if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                            if (data == 4 || data == 12) {
+                                //newData = 0;
+                                newData = 1;
+                            } else {
+                                newData = 0;
+                            }
+                        } else {
+                            newData += 1;
+                        }
                     }
+                }
+            }
 
-                    success = replaceBlock(player, block, hand, newData, true);
-                } else {
-                    success = replaceBlock(player, block, type, newData, false);
+
+            boolean success = false;
+            if (hand == Config.getRotateTool() || hand == type) {
+                success = replaceBlock(player, block, type, newData, false);
+            } else if (Perms.canSwap(player)){
+                if (newData > 5) {
+                    newData = 0;
                 }
-                if (success) {
-                    forceUpdate(block, data, newData);
-                }
-            } // end perm check
+
+                success = replaceBlock(player, block, hand, newData, true);
+            }
+
+            if (success) {
+                forceUpdate(block, data, newData);
+            }
         }
     }
 
