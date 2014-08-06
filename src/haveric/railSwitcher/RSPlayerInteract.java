@@ -127,7 +127,7 @@ public class RSPlayerInteract implements Listener {
             boolean success = false;
             if (hand == Config.getRotateTool() || hand == type) {
                 success = replaceBlock(player, block, type, newData, false);
-            } else if (Perms.canSwap(player)){
+            } else if (Perms.canSwap(player)) {
                 if (newData > 5) {
                     newData = 0;
                 }
@@ -183,42 +183,22 @@ public class RSPlayerInteract implements Listener {
         downBlock.setType(downType);
 
         // Handle switching from a slope
-        Block nextBlock = null;
-        if (oldState == 2 || oldState == 10) {
-            nextBlock = block.getRelative(BlockFace.EAST);
-        } else if (oldState == 3 || oldState == 11) {
-            nextBlock = block.getRelative(BlockFace.WEST);
-        } else if (oldState == 4 || oldState == 12) {
-            nextBlock = block.getRelative(BlockFace.NORTH);
-        } else if (oldState == 5 || oldState == 13) {
-            nextBlock = block.getRelative(BlockFace.SOUTH);
-        }
-
-        if (nextBlock != null) {
-            Block nextUpBlock = nextBlock.getRelative(BlockFace.UP);
-            Material nextUpType = nextUpBlock.getType();
-            if (nextUpType == Material.RAILS || nextUpType == Material.POWERED_RAIL || nextUpType == Material.ACTIVATOR_RAIL || nextUpType == Material.DETECTOR_RAIL) {
-                Material nextType = nextBlock.getType();
-                if (nextType == Material.GRASS) {
-                    nextBlock.setType(Material.STONE);
-                } else {
-                    nextBlock.setType(Material.GRASS);
-                }
-
-                nextBlock.setType(nextType);
-            }
-        }
-
+        switchToSlope(block, oldState);
 
         // Handle switching to a slope
-        nextBlock = null;
-        if (newState == 2 || newState == 10) {
+        switchToSlope(block, newState);
+    }
+
+    private void switchToSlope(Block block, int state) {
+        Block nextBlock = null;
+
+        if (state == 2 || state == 10) {
             nextBlock = block.getRelative(BlockFace.EAST);
-        } else if (newState == 3 || newState == 11) {
+        } else if (state == 3 || state == 11) {
             nextBlock = block.getRelative(BlockFace.WEST);
-        } else if (newState == 4 || newState == 12) {
+        } else if (state == 4 || state == 12) {
             nextBlock = block.getRelative(BlockFace.NORTH);
-        } else if (newState == 5 || newState == 13) {
+        } else if (state == 5 || state == 13) {
             nextBlock = block.getRelative(BlockFace.SOUTH);
         }
 
