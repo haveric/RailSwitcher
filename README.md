@@ -4,7 +4,7 @@
 
 #### Changelog:
 
-#### Coming Soon
+#### Version 1.0.9 (8/11/2014)
 * Updated Metrics to work with updated getOnlinePlayers
 * Remove items from all non-creative GameModes and not just survival
 * Added a warning for when older blocks are missing.
