@@ -6,6 +6,7 @@
 
 #### Coming Soon
 * Updated Metrics to handle old getOnlinePlayers (provides backward support for old versions of CraftBukkit)
+* Add 1.8 items + doors to default block list
 
 #### Version 1.0.9 (8/11/2014)
 * Updated Metrics to work with updated getOnlinePlayers

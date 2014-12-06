@@ -17,7 +17,7 @@ public class RailSwitcher extends JavaPlugin {
 
     private Commands commands = new Commands(this);
 
-    private static final int BLOCKS_VERSION = 8;
+    private static final int BLOCKS_VERSION = 9;
 
     private CustomFileWriter fileWriter;
     private List<Material> listOfMaterials;
@@ -90,6 +90,7 @@ public class RailSwitcher extends JavaPlugin {
             listOfMaterials.add(Material.DRAGON_EGG);
             listOfMaterials.add(Material.DIODE_BLOCK_OFF);
             listOfMaterials.add(Material.DIODE_BLOCK_ON);
+            listOfMaterials.add(Material.WOOD_DOOR);
             listOfMaterials.add(Material.ENCHANTMENT_TABLE);
             listOfMaterials.add(Material.ENDER_CHEST);
             listOfMaterials.add(Material.FENCE);
@@ -100,6 +101,7 @@ public class RailSwitcher extends JavaPlugin {
             listOfMaterials.add(Material.GLOWSTONE);
             listOfMaterials.add(Material.GOLD_PLATE);
             listOfMaterials.add(Material.ICE);
+            listOfMaterials.add(Material.IRON_DOOR);
             listOfMaterials.add(Material.IRON_FENCE);
             listOfMaterials.add(Material.IRON_PLATE);
             listOfMaterials.add(Material.JUNGLE_WOOD_STAIRS);
@@ -163,13 +165,43 @@ public class RailSwitcher extends JavaPlugin {
 
         try {
             listOfMaterials.add(Material.ACACIA_STAIRS);
+            listOfMaterials.add(Material.BIRCH_WOOD_STAIRS);
             listOfMaterials.add(Material.DARK_OAK_STAIRS);
+            listOfMaterials.add(Material.JUNGLE_WOOD_STAIRS);
+            listOfMaterials.add(Material.SPRUCE_WOOD_STAIRS);
+
             listOfMaterials.add(Material.DOUBLE_PLANT);
             listOfMaterials.add(Material.LEAVES_2);
             listOfMaterials.add(Material.STAINED_GLASS);
             listOfMaterials.add(Material.STAINED_GLASS_PANE);
         } catch (NoSuchFieldError e) {
             log.warning("1.7 blocks not found.");
+        }
+
+        try {
+            listOfMaterials.add(Material.BANNER);
+            listOfMaterials.add(Material.IRON_TRAPDOOR);
+            listOfMaterials.add(Material.SEA_LANTERN);
+
+            listOfMaterials.add(Material.ACACIA_FENCE);
+            listOfMaterials.add(Material.BIRCH_FENCE);
+            listOfMaterials.add(Material.DARK_OAK_FENCE);
+            listOfMaterials.add(Material.JUNGLE_FENCE);
+            listOfMaterials.add(Material.SPRUCE_FENCE);
+
+            listOfMaterials.add(Material.ACACIA_FENCE_GATE);
+            listOfMaterials.add(Material.BIRCH_FENCE_GATE);
+            listOfMaterials.add(Material.DARK_OAK_FENCE_GATE);
+            listOfMaterials.add(Material.JUNGLE_FENCE_GATE);
+            listOfMaterials.add(Material.SPRUCE_FENCE_GATE);
+
+            listOfMaterials.add(Material.ACACIA_DOOR);
+            listOfMaterials.add(Material.BIRCH_DOOR);
+            listOfMaterials.add(Material.DARK_OAK_DOOR);
+            listOfMaterials.add(Material.JUNGLE_DOOR);
+            listOfMaterials.add(Material.SPRUCE_DOOR);
+        } catch (NoSuchFieldError e) {
+            log.warning("1.8 blocks not found.");
         }
     }
 
