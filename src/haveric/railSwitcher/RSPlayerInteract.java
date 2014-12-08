@@ -221,6 +221,7 @@ public class RSPlayerInteract implements Listener {
     private boolean canPlaceRail(Block block) {
         String material = block.getType().name();
 
+        short blockData = block.getData();
         boolean canPlace = true;
         List<String> materials = plugin.getMaterials();
 
@@ -228,16 +229,32 @@ public class RSPlayerInteract implements Listener {
             String[] item = line.split(":");
 
             if (material.equals(item[0])) {
-                int data;
-
                 if (item.length > 1) {
-                    data = Integer.parseInt(item[1]);
-                } else {
-                    data = RailSwitcher.ANY_DATA;
-                }
+                    String[] datas = item[1].split(",");
 
-                if (data == RailSwitcher.ANY_DATA || data == block.getData()) {
+                    for (String dataString : datas) {
+                        String[] ranges = dataString.split("-");
+
+                        if (ranges.length == 2) {
+                            int minData = Integer.parseInt(ranges[0]);
+                            int maxData = Integer.parseInt(ranges[1]);
+
+                            if (blockData >= minData && blockData <= maxData) {
+                                canPlace = false;
+                                break;
+                            }
+                        } else {
+                            int data = Integer.parseInt(ranges[0]);
+
+                            if (data == blockData) {
+                                canPlace = false;
+                                break;
+                            }
+                        }
+                    }
+                } else {
                     canPlace = false;
+                    break;
                 }
             }
         }
