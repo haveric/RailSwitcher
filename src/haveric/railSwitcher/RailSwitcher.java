@@ -90,7 +90,6 @@ public class RailSwitcher extends JavaPlugin {
             listOfMaterials.add(Material.DRAGON_EGG);
             listOfMaterials.add(Material.DIODE_BLOCK_OFF);
             listOfMaterials.add(Material.DIODE_BLOCK_ON);
-            listOfMaterials.add(Material.WOODEN_DOOR);
             listOfMaterials.add(Material.ENCHANTMENT_TABLE);
             listOfMaterials.add(Material.ENDER_CHEST);
             listOfMaterials.add(Material.FENCE);
@@ -122,6 +121,7 @@ public class RailSwitcher extends JavaPlugin {
             listOfMaterials.add(Material.PUMPKIN_STEM);
             listOfMaterials.add(Material.QUARTZ_STAIRS);
             listOfMaterials.add(Material.RAILS);
+            listOfMaterials.add(Material.RED_ROSE);
             listOfMaterials.add(Material.REDSTONE_COMPARATOR_OFF);
             listOfMaterials.add(Material.REDSTONE_COMPARATOR_ON);
             listOfMaterials.add(Material.REDSTONE_TORCH_OFF);
@@ -154,6 +154,7 @@ public class RailSwitcher extends JavaPlugin {
             listOfMaterials.add(Material.WATER_LILY);
             listOfMaterials.add(Material.WEB);
             listOfMaterials.add(Material.WHEAT);
+            listOfMaterials.add(Material.WOODEN_DOOR);
             listOfMaterials.add(Material.WOOD_BUTTON);
             listOfMaterials.add(Material.WOOD_PLATE);
             listOfMaterials.add(Material.WOOD_STAIRS);
