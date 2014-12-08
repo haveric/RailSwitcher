@@ -179,7 +179,7 @@ public class RailSwitcher extends JavaPlugin {
         }
 
         try {
-            listOfMaterials.add(Material.BANNER);
+            listOfMaterials.add(Material.STANDING_BANNER);
             listOfMaterials.add(Material.IRON_TRAPDOOR);
             listOfMaterials.add(Material.SEA_LANTERN);
 
