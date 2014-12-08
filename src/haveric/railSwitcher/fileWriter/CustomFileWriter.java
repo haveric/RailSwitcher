@@ -21,7 +21,7 @@ public class CustomFileWriter {
 
     private File dataFolder;
 
-    private List<Material> matList;
+    private List<String> matList;
 
     private String fileName;
 
@@ -42,14 +42,14 @@ public class CustomFileWriter {
         }
     }
 
-    public void reloadFiles(int version, List<Material> list) {
+    public void reloadFiles(int version, List<String> list) {
         defaultFile = new File(getDataFolder() + File.separator + "lists" + File.separator + "default" + fileName + ".txt");
         customFile = new File(getDataFolder() + File.separator + "lists" + File.separator + "custom" + fileName + ".txt");
 
         createFiles(version, list);
     }
 
-    private void createFiles(int version, List<Material> list) {
+    private void createFiles(int version, List<String> list) {
         if (!defaultFile.exists()) {
             try {
                 defaultFile.createNewFile();
@@ -82,17 +82,19 @@ public class CustomFileWriter {
             defaultScanner.close();
 
             Scanner listScanner = new Scanner(defaultFile);
-            matList = new ArrayList<Material>();
+            matList = new ArrayList<String>();
 
             listScanner.next();
             listScanner.nextInt();
             while (listScanner.hasNextLine()) {
                 String line = listScanner.nextLine();
-                Material mat = Material.getMaterial(line);
+                String[] item = line.split(":");
+                Material mat = Material.getMaterial(item[0]);
+
                 if (mat == null) {
                     plugin.log.warning("Default File - Material does not exist: '" + line + "'");
                 } else {
-                    matList.add(mat);
+                    matList.add(line);
                 }
 
             }
@@ -107,14 +109,16 @@ public class CustomFileWriter {
             Scanner customScanner = new Scanner(customFile);
 
             if (customFile.length() > 0) {
-                matList = new ArrayList<Material>();
+                matList = new ArrayList<String>();
                 while (customScanner.hasNextLine()) {
                     String line = customScanner.nextLine();
-                    Material mat = Material.getMaterial(line);
+                    String[] item = line.split(":");
+                    Material mat = Material.getMaterial(item[0]);
+
                     if (mat == null) {
                         plugin.log.warning("Custom File - Material does not exist: '" + line + "'");
                     } else {
-                        matList.add(mat);
+                        matList.add(line);
                     }
                 }
             }
@@ -126,14 +130,14 @@ public class CustomFileWriter {
         }
     }
 
-    private void writeList(List<Material> list, File f, int version) {
+    private void writeList(List<String> list, File f, int version) {
         try {
             FileWriter fstream = new FileWriter(f);
             PrintWriter out = new PrintWriter(fstream);
             out.println("Version: " + version);
 
-            for (Material mat : list) {
-                out.println(mat.name());
+            for (String item : list) {
+                out.println(item);
             }
 
             out.close();
@@ -151,7 +155,7 @@ public class CustomFileWriter {
         return dataFolder;
     }
 
-    public List<Material> getMatList() {
+    public List<String> getMatList() {
         return matList;
     }
 }

@@ -77,16 +77,16 @@ public class RSPlayerInteract implements Listener {
                     if (newData == 9) {
                         newData = 0;
                     } else {
-                        if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                        if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz))) {
                             newData++;
                         }
-                        if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                        if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz))) {
                             newData++;
                         }
-                        if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                        if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1))) {
                             newData++;
                         }
-                        if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                        if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1))) {
                             newData++;
                         }
 
@@ -100,16 +100,16 @@ public class RSPlayerInteract implements Listener {
                         //newData = 8;
                         newData = 9;
                     } else {
-                        if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz).getType())) {
+                        if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz))) {
                             newData++;
                         }
-                        if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz).getType())) {
+                        if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz))) {
                             newData++;
                         }
-                        if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1).getType())) {
+                        if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1))) {
                             newData++;
                         }
-                        if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1).getType())) {
+                        if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1))) {
                             if (data == 4 || data == 12) {
                                 //newData = 0;
                                 newData = 1;
@@ -218,14 +218,27 @@ public class RSPlayerInteract implements Listener {
         }
     }
 
-    private boolean canPlaceRail(Material m) {
+    private boolean canPlaceRail(Block block) {
+        String material = block.getType().name();
+
         boolean canPlace = true;
-        List<Material> materials = plugin.getMaterials();
-        if (materials != null) {
-            for (int i = 0; i < materials.size() && canPlace; i++) {
-                 if (m == materials.get(i)) {
-                     canPlace = false;
-                 }
+        List<String> materials = plugin.getMaterials();
+
+        for(String line : materials) {
+            String[] item = line.split(":");
+
+            if (material.equals(item[0])) {
+                int data;
+
+                if (item.length > 1) {
+                    data = Integer.parseInt(item[1]);
+                } else {
+                    data = RailSwitcher.ANY_DATA;
+                }
+
+                if (data == RailSwitcher.ANY_DATA || data == block.getData()) {
+                    canPlace = false;
+                }
             }
         }
 
