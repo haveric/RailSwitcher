@@ -8,7 +8,8 @@
 * Updated Metrics to handle old getOnlinePlayers (provides backward support for old versions of CraftBukkit)
 * Add 1.8 items + doors to default block list
 * Added support for data values in list files
-* Allow rails to top slabs, but not bottom.
+* Allow rails to attach to top of slabs, but not bottom.
+* Allow rails to attach to top of stairs, but not bottom
 
 #### Version 1.0.9 (8/11/2014)
 * Updated Metrics to work with updated getOnlinePlayers
