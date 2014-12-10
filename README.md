@@ -4,7 +4,7 @@
 
 #### Changelog:
 
-#### Coming Soon
+#### Version 1.1 (12/9/2014)
 * Updated Metrics to handle old getOnlinePlayers (provides backward support for old versions of CraftBukkit)
 * Add 1.8 items + doors to default block list
 * Added support for data values in list files
@@ -14,8 +14,7 @@
 ** ACACIA_STAIRS:0-3 (affects all data values from 0-3)
 ** ACACIA_STAIRS:0,1,2,3 (same as above, data values defined separately using commas)
 ** ACACIA_STAIRS:0-3,5,6 (Combine the two types for more customization
-* Allow rails to attach to top of slabs, but not bottom.
-* Allow rails to attach to top of stairs, but not bottom
+* Allow rails to attach to top of slabs and stairs, but not bottom versions.
 
 #### Version 1.0.9 (8/11/2014)
 * Updated Metrics to work with updated getOnlinePlayers
