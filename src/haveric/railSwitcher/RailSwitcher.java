@@ -197,7 +197,7 @@ public class RailSwitcher extends JavaPlugin {
             materialList.add(Material.JUNGLE_DOOR.name());
             materialList.add(Material.SPRUCE_DOOR.name());
 
-            materialList.add(Material.STONE_SLAB2 + ":0");
+            materialList.add(Material.STONE_SLAB2.name() + ":0");
         } catch (NoSuchFieldError e) {
             log.warning("1.8 blocks not found.");
         }
