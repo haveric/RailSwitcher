@@ -4,6 +4,9 @@
 
 #### Changelog:
 
+#### Coming Soon
+* Prevent blank lines in list files from being checked as materials
+
 #### Version 1.1 (12/9/2014)
 * Updated Metrics to handle old getOnlinePlayers (provides backward support for old versions of CraftBukkit)
 * Add 1.8 items + doors to default block list
