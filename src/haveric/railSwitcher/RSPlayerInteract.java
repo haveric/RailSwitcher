@@ -225,7 +225,7 @@ public class RSPlayerInteract implements Listener {
         boolean canPlace = true;
         List<String> materials = plugin.getMaterials();
 
-        for(String line : materials) {
+        for (String line : materials) {
             String[] item = line.split(":");
 
             if (material.equals(item[0])) {
