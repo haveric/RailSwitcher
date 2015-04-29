@@ -3,12 +3,12 @@ package haveric.railSwitcher;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.spongepowered.api.text.Text;
 import org.spongepowered.api.text.format.TextColor;
 import org.spongepowered.api.text.format.TextColors;
-import org.spongepowered.api.text.message.Message;
-import org.spongepowered.api.text.message.Messages;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandException;
+import org.spongepowered.api.util.command.CommandResult;
 import org.spongepowered.api.util.command.CommandSource;
 
 import com.google.common.base.Optional;
@@ -24,51 +24,44 @@ public class Commands {
     }
 
     private void registerBaseCommand() {
-        final TextColor msgColor = TextColors.DARK_AQUA;
-
-        final Message title = Messages.builder("[").color(msgColor).append(
-                Messages.builder(plugin.getName()).color(TextColors.GRAY).build()).append(
-                Messages.builder("] ").color(msgColor).build())
-            .build();
-
         CommandCallable callable = new CommandCallable() {
 
             @Override
-            public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
-                return new ArrayList<String>();
+            public Optional<CommandResult> process(CommandSource source, String arguments) throws CommandException {
+                // TODO Auto-generated method stub
+                return null;
             }
 
             @Override
-            public boolean call(CommandSource source, String arguments, List<String> parents) throws CommandException {
-                Message infoLine = Messages.builder("github.com/haveric/RailSwitcher - v" + plugin.getVersion()).color(msgColor).build();
-
-                source.sendMessage(Messages.builder().append(title, infoLine).build());
-
-
-                return true;
+            public List<String> getSuggestions(CommandSource source, String arguments) throws CommandException {
+                // TODO Auto-generated method stub
+                return null;
             }
 
             @Override
             public boolean testPermission(CommandSource source) {
-
+                // TODO Auto-generated method stub
                 return false;
             }
 
             @Override
-            public Optional<String> getShortDescription() {
-                return Optional.absent();
+            public Optional<Text> getShortDescription(CommandSource source) {
+                // TODO Auto-generated method stub
+                return null;
             }
 
             @Override
-            public Optional<String> getHelp() {
-
-                return Optional.absent();
+            public Optional<Text> getHelp(CommandSource source) {
+                // TODO Auto-generated method stub
+                return null;
             }
 
             @Override
-            public String getUsage() {
-                return "";
+            public Text getUsage(CommandSource source) {
+                // TODO Auto-generated method stub
+                return null;
             }
+
         };
 
         List<String> aliases = new ArrayList<String>();

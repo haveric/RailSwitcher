@@ -6,3 +6,7 @@
 reports
 build.xml
 downloads/*/dev
+
+# Gradle
+.gradle
+build/
