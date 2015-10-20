@@ -2,16 +2,13 @@ package haveric.railSwitcher;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.text.format.TextColor;
-import org.spongepowered.api.text.format.TextColors;
 import org.spongepowered.api.util.command.CommandCallable;
 import org.spongepowered.api.util.command.CommandException;
 import org.spongepowered.api.util.command.CommandResult;
 import org.spongepowered.api.util.command.CommandSource;
-
-import com.google.common.base.Optional;
 
 public class Commands {
 
@@ -27,9 +24,9 @@ public class Commands {
         CommandCallable callable = new CommandCallable() {
 
             @Override
-            public Optional<CommandResult> process(CommandSource source, String arguments) throws CommandException {
+            public CommandResult process(CommandSource source, String arguments) throws CommandException {
                 // TODO Auto-generated method stub
-                return null;
+                return CommandResult.success();
             }
 
             @Override

@@ -1,23 +1,22 @@
 package haveric.railSwitcher;
 
-import java.util.Collection;
 import java.util.Iterator;
+import java.util.Optional;
 
+import org.spongepowered.api.block.BlockSnapshot;
+import org.spongepowered.api.block.BlockState;
 import org.spongepowered.api.block.BlockType;
 import org.spongepowered.api.block.BlockTypes;
-import org.spongepowered.api.data.DataManipulator;
-import org.spongepowered.api.data.manipulators.items.DurabilityData;
-import org.spongepowered.api.entity.EntityInteractionType;
-import org.spongepowered.api.entity.EntityInteractionTypes;
-import org.spongepowered.api.entity.player.Player;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.entity.player.PlayerInteractBlockEvent;
+import org.spongepowered.api.block.trait.BlockTrait;
+import org.spongepowered.api.data.key.Keys;
+import org.spongepowered.api.entity.living.player.Player;
+import org.spongepowered.api.entity.living.player.gamemode.GameModes;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.item.ItemType;
-import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.world.Location;
-
-import com.google.common.base.Optional;
+import org.spongepowered.api.world.World;
 
 public class RSPlayerInteract {
 
@@ -27,42 +26,93 @@ public class RSPlayerInteract {
         plugin = railSwitcher;
     }
 
-    @Subscribe
-    public void onPlayerInteract(PlayerInteractBlockEvent event) {
-        //plugin.getLog().info("Interaction Type: " + event.getInteractionType());
+    @Listener
+    public void onPlayerInteract(InteractBlockEvent.Secondary event) {
+        BlockSnapshot block = event.getTargetBlock();
+        BlockState state = block.getState();
+        BlockType blockType = state.getType();
 
-        if (event.getInteractionType() == EntityInteractionTypes.USE) {
-            Location block = event.getBlock();
-            BlockType blockType = block.getType();
+        if (blockType == BlockTypes.RAIL || blockType == BlockTypes.GOLDEN_RAIL || blockType == BlockTypes.DETECTOR_RAIL || blockType == BlockTypes.ACTIVATOR_RAIL) {
+            Optional<Player> opPlayer = event.getCause().first(Player.class);
 
-            int x = block.getBlockX();
-            int y = block.getBlockY();
-            int z = block.getBlockZ();
-            plugin.getLog().info("Right click: " + blockType + ", X: " + x + ", y: " + y + ", z: " + z);
-            if (blockType == BlockTypes.RAIL || blockType == BlockTypes.GOLDEN_RAIL || blockType == BlockTypes.DETECTOR_RAIL || blockType == BlockTypes.ACTIVATOR_RAIL) {
-                Player player = event.getPlayer();
+            if (opPlayer.isPresent()) {
+                Player player = opPlayer.get();
 
                 Optional<ItemStack> optionalHolding = player.getItemInHand();
                 plugin.getLog().info("Click rail");
                 if (optionalHolding.isPresent()) {
                     ItemStack holding = optionalHolding.get();
-                    
+
                     if (holding != null) {
-                        
                         ItemType itemType = holding.getItem();
-                        if (itemType == ItemTypes.RAIL || itemType == ItemTypes.GOLDEN_RAIL || itemType == ItemTypes.DETECTOR_RAIL || itemType == ItemTypes.ACTIVATOR_RAIL || itemType == Config.getRotateTool()) {
-                            /*
-                            Optional<BlockProperty<?>> optionalProperty = block.getState().getPropertyByName("shape");
-                            plugin.getLog().info("Holding Rail");
-                            if (optionalProperty.isPresent()) {
-                                BlockProperty<?> blockProperty = optionalProperty.get();
-    
-                                plugin.getLog().info("Block Property: " + blockProperty);
+
+                        if (/*itemType.equals(ItemTypes.RAIL) || itemType == ItemTypes.GOLDEN_RAIL || itemType == ItemTypes.DETECTOR_RAIL || itemType == ItemTypes.ACTIVATOR_RAIL || */itemType == Config.getRotateTool()) {
+                            int index = 0;
+                            Object[] traitsArray = state.getTraitValues().toArray();
+                            boolean powered = traitsArray.length > 1;
+                            if (powered) {
+                                String poweredValue = traitsArray[index].toString();
+
+                                index++;
                             }
-                            */
+
+                            Object shapeValue = traitsArray[index];
+
+                            BlockTrait<?> trait = state.getTrait("shape").get();
+
+                            Iterator<?> iter = trait.getPossibleValues().iterator();
+                            Object first = null;
+                            Object newValue = null;
+                            while(iter.hasNext()) {
+                                Object object = iter.next();
+                                if (first == null) {
+                                    first = object;
+                                }
+
+                                if (object.equals(shapeValue)) {
+                                    if (iter.hasNext()) {
+                                        newValue = iter.next();
+                                    } else {
+                                        newValue = first;
+                                    }
+                                }
+                            }
+
+                            if (newValue != null) {
+                                Optional<Location<World>> opLocation = block.getLocation();
+                                if (opLocation.isPresent()) {
+                                    Location<World> location = opLocation.get();
+
+                                    Optional<BlockState> opNewState = state.withTrait(trait, newValue);
+                                    if (opNewState.isPresent()) {
+                                        replaceBlock(player, location, opNewState.get(), holding);
+                                    }
+                                }
+                            }
                         }
                     }
                 }
+            }
+        }
+    }
+
+    private void replaceBlock(Player player, Location<World> block, BlockState newBlock, ItemStack holding) {
+        // TODO: Call a place event and check for cancellation
+        block.setBlock(newBlock);
+
+        removeFromHand(player, holding);
+    }
+
+    private void removeFromHand(Player player, ItemStack holding) {
+        plugin.getLog().info("Game Mode: " + player.get(Keys.GAME_MODE).get());
+        if (player.get(Keys.GAME_MODE).get() != GameModes.CREATIVE) {
+            int amount = holding.getQuantity();
+
+            if (amount > 1) {
+                holding.setQuantity(amount - 1);
+                player.setItemInHand(holding);
+            } else {
+                player.setItemInHand(null);
             }
         }
     }
