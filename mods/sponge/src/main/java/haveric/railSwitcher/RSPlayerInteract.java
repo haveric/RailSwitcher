@@ -14,6 +14,7 @@ import org.spongepowered.api.entity.living.player.gamemode.GameModes;
 import org.spongepowered.api.event.Listener;
 import org.spongepowered.api.event.block.InteractBlockEvent;
 import org.spongepowered.api.item.ItemType;
+import org.spongepowered.api.item.ItemTypes;
 import org.spongepowered.api.item.inventory.ItemStack;
 import org.spongepowered.api.world.Location;
 import org.spongepowered.api.world.World;
@@ -46,7 +47,7 @@ public class RSPlayerInteract {
                     if (holding != null) {
                         ItemType itemType = holding.getItem();
 
-                        if (/*itemType.equals(ItemTypes.RAIL) || itemType == ItemTypes.GOLDEN_RAIL || itemType == ItemTypes.DETECTOR_RAIL || itemType == ItemTypes.ACTIVATOR_RAIL || */itemType == Config.getRotateTool()) {
+                        if (itemType.equals(ItemTypes.RAIL) || itemType == ItemTypes.GOLDEN_RAIL || itemType == ItemTypes.DETECTOR_RAIL || itemType == ItemTypes.ACTIVATOR_RAIL || itemType == Config.getRotateTool()) {
                             int index = 0;
                             Object[] traitsArray = state.getTraitValues().toArray();
                             boolean powered = traitsArray.length > 1;
