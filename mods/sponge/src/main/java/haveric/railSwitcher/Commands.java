@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.spongepowered.api.Sponge;
+import org.spongepowered.api.command.CommandCallable;
+import org.spongepowered.api.command.CommandException;
+import org.spongepowered.api.command.CommandResult;
+import org.spongepowered.api.command.CommandSource;
 import org.spongepowered.api.text.Text;
-import org.spongepowered.api.util.command.CommandCallable;
-import org.spongepowered.api.util.command.CommandException;
-import org.spongepowered.api.util.command.CommandResult;
-import org.spongepowered.api.util.command.CommandSource;
 
 public class Commands {
 
@@ -65,6 +66,6 @@ public class Commands {
         aliases.add("railswitcher");
         aliases.add("rs");
 
-        plugin.getGame().getCommandDispatcher().register(plugin, callable, aliases);
+        Sponge.getCommandManager().register(plugin, callable, aliases);
     }
 }
