@@ -1,42 +1,39 @@
 package haveric.railSwitcher;
 
-import java.util.Optional;
-
+import com.google.inject.Inject;
+import haveric.railSwitcher.commands.Commands;
 import org.slf4j.Logger;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.event.EventManager;
 import org.spongepowered.api.event.Listener;
-import org.spongepowered.api.event.game.state.GameAboutToStartServerEvent;
 import org.spongepowered.api.event.game.state.GameStartingServerEvent;
 import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.plugin.PluginManager;
-import org.spongepowered.api.service.event.EventManager;
 
-@Plugin(id = "RailSwitcher", name = "Rail Switcher", version = "2.0")
+import java.util.Optional;
+
+@Plugin(id = "railswitcher", name = "Rail Switcher", version = "2.0",
+        description = "Switch Rails",
+        authors = {"haveric"})
 public class RailSwitcher {
-    private Logger log;
-
+    @Inject
     private Game game;
+    @Inject
+    private PluginManager pm;
+    @Inject
+    private Logger logger;
+    @Inject
+    private EventManager em;
+    @Inject
+    private PluginContainer container;
     @SuppressWarnings("unused")
     private Commands commands;
     private Config config;
 
     @Listener
-    public void preStartup(GameAboutToStartServerEvent event) {
-        game = event.getGame();
-        PluginManager pm = game.getPluginManager();
-
-        Optional<PluginContainer> optionalContainer = pm.fromInstance(this);
-        if (optionalContainer.isPresent()) {
-            PluginContainer pc = optionalContainer.get();
-            log = pm.getLogger(pc);
-        }
-    }
-
-    @Listener
     public void onStartup(GameStartingServerEvent event) {
-        EventManager em = game.getEventManager();
         em.registerListeners(this, new RSPlayerInteract(this));
 
         commands = new Commands(this);
@@ -52,17 +49,25 @@ public class RailSwitcher {
         return game;
     }
 
-    public Logger getLog() {
-        return log;
+    public Logger getLogger() {
+        return logger;
     }
 
-    // TODO: Replace with Plugin annotation's id/name when possible
+    public PluginContainer getContainer() {
+        return container;
+    }
+
     public String getName() {
-        return "RailSwitcher";
+
+        return container.getName();
     }
 
-    // TODO: Replace with Plugin annotation's version when possible
     public String getVersion() {
-        return "2.0";
+        String version = "";
+        Optional<String> optVersion = container.getVersion();
+        if (optVersion.isPresent()) {
+            version = optVersion.get();
+        }
+        return version;
     }
 }
