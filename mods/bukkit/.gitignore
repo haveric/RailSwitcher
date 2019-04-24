@@ -1,0 +1,17 @@
+/src/test/work
+*.class
+
+.settings
+reports
+build.xml
+bin
+node_modules
+downloads/dev
+
+# Gradle
+.gradle
+build/
+
+# Intellij
+*.iml
+.idea/

@@ -337,7 +337,7 @@ public class Metrics {
 
         int playersOnline = -1;
         try {
-            // Use reflection to use the proper version of getOnlinePlayers - credit to Maxim Roncacé (ShadyPotato)
+            // Use reflection to use the proper version of getOnlinePlayers - credit to Maxim Roncacï¿½ (ShadyPotato)
             if (Bukkit.class.getMethod("getOnlinePlayers", new Class<?>[0]).getReturnType() == Collection.class) {
                 playersOnline = ((Collection<?>) Bukkit.class.getMethod("getOnlinePlayers", new Class<?>[0]).invoke(null, new Object[0])).size();
             } else {

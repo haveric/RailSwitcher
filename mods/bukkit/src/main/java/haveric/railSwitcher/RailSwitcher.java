@@ -2,15 +2,14 @@ package haveric.railSwitcher;
 
 import haveric.railSwitcher.fileWriter.CustomFileWriter;
 import haveric.railSwitcher.mcstats.Metrics;
+import org.bukkit.Material;
+import org.bukkit.plugin.PluginManager;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
-
-import org.bukkit.Material;
-import org.bukkit.plugin.PluginManager;
-import org.bukkit.plugin.java.JavaPlugin;
 
 public class RailSwitcher extends JavaPlugin {
     public Logger log;
