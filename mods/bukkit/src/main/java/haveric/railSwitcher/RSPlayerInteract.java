@@ -1,8 +1,5 @@
 package haveric.railSwitcher;
 
-import java.util.HashSet;
-import java.util.List;
-
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
@@ -15,49 +12,32 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
+
+import java.util.List;
 
 public class RSPlayerInteract implements Listener {
 
     private RailSwitcher plugin;
 
-    private HashSet<Byte> transparentBlocks = new HashSet<Byte>();
-
     public RSPlayerInteract(RailSwitcher rs) {
         plugin = rs;
-
-        transparentBlocks.add((byte) Material.AIR.getId());
-        transparentBlocks.add((byte) Material.POWERED_RAIL.getId());
-        transparentBlocks.add((byte) Material.DETECTOR_RAIL.getId());
-        transparentBlocks.add((byte) Material.RAILS.getId());
-        transparentBlocks.add((byte) Material.ACTIVATOR_RAIL.getId());
     }
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         Player player = event.getPlayer();
-        Material hand = player.getItemInHand().getType();
+        PlayerInventory inventory = player.getInventory();
+        Material hand = inventory.getItemInMainHand().getType();
 
         Block block = null;
-        if (event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (hand == Material.RAILS || hand == Material.POWERED_RAIL || hand == Material.DETECTOR_RAIL || hand == Material.ACTIVATOR_RAIL) {
-                final int dist = 5;
-
-                List<Block> blocks = player.getLineOfSight(transparentBlocks, dist);
-
-                for (int l = blocks.size(), i = l; i > 0; i--) {
-                    Block tempBlock = blocks.get(i - 1);
-                    Material tempType = tempBlock.getType();
-
-                    if (tempType == Material.RAILS || tempType == Material.POWERED_RAIL || tempType == Material.DETECTOR_RAIL || tempType == Material.ACTIVATOR_RAIL) {
-                        block = tempBlock;
-                        break;
-                    }
+        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (hand == Config.getRotateTool() || hand == Material.RAILS || hand == Material.POWERED_RAIL || hand == Material.DETECTOR_RAIL || hand == Material.ACTIVATOR_RAIL) {
+                if (!event.isBlockInHand()) {
+                    block = event.getClickedBlock();
                 }
-            }
-        } else if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (hand == Config.getRotateTool()) {
-                block = event.getClickedBlock();
             }
         }
 
@@ -148,7 +128,7 @@ public class RSPlayerInteract implements Listener {
         block.setType(mat);
         block.setData((byte) data);
 
-        BlockPlaceEvent placeEvent = new BlockPlaceEvent(state.getBlock(), state, block, player.getItemInHand(), player, true);
+        BlockPlaceEvent placeEvent = new BlockPlaceEvent(state.getBlock(), state, block, player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
         plugin.getServer().getPluginManager().callEvent(placeEvent);
         if (placeEvent.isCancelled()) {
             state.update(true);
@@ -264,13 +244,14 @@ public class RSPlayerInteract implements Listener {
 
     private void useItemInHand(Player player) {
         if (player.getGameMode() != GameMode.CREATIVE) {
-            ItemStack holding = player.getItemInHand();
+            PlayerInventory inventory = player.getInventory();
+            ItemStack holding = inventory.getItemInMainHand();
 
             int amt = holding.getAmount();
             if (amt > 1) {
                 holding.setAmount(--amt);
             } else {
-                player.getInventory().setItemInHand(null);
+                inventory.setItemInMainHand(null);
             }
         }
     }

@@ -1,0 +1,16 @@
+apply plugin: 'java'
+apply plugin: 'idea'
+
+sourceCompatibility = 1.7
+
+repositories {
+    mavenCentral()
+    maven {
+        name 'Spigot/Bukkit maven repo'
+        url 'https://hub.spigotmc.org/nexus/content/groups/public/'
+    }
+}
+
+dependencies {
+    compile "org.bukkit:bukkit:1.11.2-R0.1-SNAPSHOT"
+}
