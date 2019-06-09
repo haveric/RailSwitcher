@@ -4,8 +4,8 @@ import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockFace;
 import org.bukkit.block.BlockState;
+import org.bukkit.block.data.Rail;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -33,11 +33,9 @@ public class RSPlayerInteract implements Listener {
         Material hand = inventory.getItemInMainHand().getType();
 
         Block block = null;
-        if (event.getAction() == Action.RIGHT_CLICK_BLOCK) {
-            if (hand == Config.getRotateTool() || hand == Material.RAILS || hand == Material.POWERED_RAIL || hand == Material.DETECTOR_RAIL || hand == Material.ACTIVATOR_RAIL) {
-                if (!event.isBlockInHand()) {
-                    block = event.getClickedBlock();
-                }
+        if (event.getHand() == EquipmentSlot.HAND && event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+            if (hand == Config.getRotateTool() || RSUtil.isRail(hand)) {
+                block = event.getClickedBlock();
             }
         }
 
@@ -46,200 +44,95 @@ public class RSPlayerInteract implements Listener {
 
             Material type = block.getType();
 
-            int data = block.getData();
-            int newData = data;
+            if (RSUtil.isRail(type)) {
+                Rail railData = (Rail) block.getBlockData();
+                Rail.Shape newShape = railData.getShape();
 
-            int bx = block.getX();
-            int by = block.getY();
-            int bz = block.getZ();
-            if ((Perms.canRotateByRail(player) && hand == type) || (Perms.canRotateByTool(player) && hand == Config.getRotateTool())) {
-                if (type == Material.RAILS) {
-                    if (newData == 9) {
-                        newData = 0;
-                    } else {
-                        if (newData == 1 && !canPlaceRail(world.getBlockAt(bx + 1, by, bz))) {
-                            newData++;
-                        }
-                        if (newData == 2 && !canPlaceRail(world.getBlockAt(bx - 1, by, bz))) {
-                            newData++;
-                        }
-                        if (newData == 3 && !canPlaceRail(world.getBlockAt(bx, by, bz - 1))) {
-                            newData++;
-                        }
-                        if (newData == 4 && !canPlaceRail(world.getBlockAt(bx, by, bz + 1))) {
-                            newData++;
-                        }
+                if ((Perms.canRotateByRail(player) && hand == type) || (Perms.canRotateByTool(player) && hand == Config.getRotateTool())) {
+                    int bx = block.getX();
+                    int by = block.getY();
+                    int bz = block.getZ();
 
-                        newData += 1;
+                    if (newShape == Rail.Shape.EAST_WEST && !RSUtil.canPlaceRail(world.getBlockAt(bx + 1, by, bz))) {
+                        newShape = Rail.Shape.ASCENDING_EAST;
                     }
-                } else if (type == Material.POWERED_RAIL || type == Material.DETECTOR_RAIL || type == Material.ACTIVATOR_RAIL) {
-                    if (newData == 5) {
-                        newData = 0;
-                    //TODO: Find next actual valid location instead of hard coding values
-                    } else if (newData == 13) {
-                        //newData = 8;
-                        newData = 9;
+                    if (newShape == Rail.Shape.ASCENDING_EAST && !RSUtil.canPlaceRail(world.getBlockAt(bx - 1, by, bz))) {
+                        newShape = Rail.Shape.ASCENDING_WEST;
+                    }
+                    if (newShape == Rail.Shape.ASCENDING_WEST && !RSUtil.canPlaceRail(world.getBlockAt(bx, by, bz - 1))) {
+                        newShape = Rail.Shape.ASCENDING_NORTH;
+                    }
+                    if (newShape == Rail.Shape.ASCENDING_NORTH && !RSUtil.canPlaceRail(world.getBlockAt(bx, by, bz + 1))) {
+                        newShape = Rail.Shape.ASCENDING_SOUTH;
+                    }
+
+                    if (type == Material.RAIL) {
+                        if (newShape == Rail.Shape.EAST_WEST) {
+                            newShape = Rail.Shape.ASCENDING_EAST;
+                        } else if (newShape == Rail.Shape.ASCENDING_EAST) {
+                            newShape = Rail.Shape.ASCENDING_WEST;
+                        } else if (newShape == Rail.Shape.ASCENDING_WEST) {
+                            newShape = Rail.Shape.ASCENDING_NORTH;
+                        } else if (newShape == Rail.Shape.ASCENDING_NORTH) {
+                            newShape = Rail.Shape.ASCENDING_SOUTH;
+                        } else if (newShape == Rail.Shape.ASCENDING_SOUTH) {
+                            newShape = Rail.Shape.SOUTH_EAST;
+                        } else if (newShape == Rail.Shape.SOUTH_EAST) {
+                            newShape = Rail.Shape.SOUTH_WEST;
+                        } else if (newShape == Rail.Shape.SOUTH_WEST) {
+                            newShape = Rail.Shape.NORTH_WEST;
+                        } else if (newShape == Rail.Shape.NORTH_WEST) {
+                            newShape = Rail.Shape.NORTH_EAST;
+                        } else if (newShape == Rail.Shape.NORTH_EAST) {
+                            newShape = Rail.Shape.NORTH_SOUTH;
+                        } else if (newShape == Rail.Shape.NORTH_SOUTH) {
+                            newShape = Rail.Shape.EAST_WEST;
+                        }
                     } else {
-                        if ((newData == 1 || newData == 9) && !canPlaceRail(world.getBlockAt(bx + 1, by, bz))) {
-                            newData++;
-                        }
-                        if ((newData == 2 || newData == 10) && !canPlaceRail(world.getBlockAt(bx - 1, by, bz))) {
-                            newData++;
-                        }
-                        if ((newData == 3 || newData == 11) && !canPlaceRail(world.getBlockAt(bx, by, bz - 1))) {
-                            newData++;
-                        }
-                        if ((newData == 4 || newData == 12) && !canPlaceRail(world.getBlockAt(bx, by, bz + 1))) {
-                            if (data == 4 || data == 12) {
-                                //newData = 0;
-                                newData = 1;
-                            } else {
-                                newData = 0;
-                            }
-                        } else {
-                            newData += 1;
+                        if (newShape == Rail.Shape.EAST_WEST) {
+                            newShape = Rail.Shape.ASCENDING_EAST;
+                        } else if (newShape == Rail.Shape.ASCENDING_EAST) {
+                            newShape = Rail.Shape.ASCENDING_WEST;
+                        } else if (newShape == Rail.Shape.ASCENDING_WEST) {
+                            newShape = Rail.Shape.ASCENDING_NORTH;
+                        } else if (newShape == Rail.Shape.ASCENDING_NORTH) {
+                            newShape = Rail.Shape.ASCENDING_SOUTH;
+                        } else if (newShape == Rail.Shape.ASCENDING_SOUTH) {
+                            newShape = Rail.Shape.NORTH_SOUTH;
+                        } else if (newShape == Rail.Shape.NORTH_SOUTH) {
+                            newShape = Rail.Shape.EAST_WEST;
                         }
                     }
                 }
-            }
 
 
-            boolean success = false;
-            if (hand == Config.getRotateTool() || hand == type) {
-                success = replaceBlock(player, block, type, newData, false);
-            } else if (Perms.canSwap(player)) {
-                if (newData > 5) {
-                    newData = 0;
+                if (hand == Config.getRotateTool() || hand == type) {
+                    replaceBlock(player, block, type, newShape, false);
+                } else if (Perms.canSwap(player)) {
+                    replaceBlock(player, block, hand, newShape, true);
                 }
-
-                success = replaceBlock(player, block, hand, newData, true);
-            }
-
-            if (success) {
-                forceUpdate(block, data, newData);
             }
         }
     }
 
-    public boolean replaceBlock(Player player, Block block, Material mat, int data, boolean breakBlock) {
-        boolean success = false;
-
+    public void replaceBlock(Player player, Block block, Material mat, Rail.Shape newShape, boolean breakBlock) {
         BlockState state = block.getState();
-        block.setType(mat);
-        block.setData((byte) data);
+        state.setType(mat);
+        Rail stateData = (Rail)state.getBlockData();
+        stateData.setShape(newShape);
+        state.setBlockData(stateData);
 
         BlockPlaceEvent placeEvent = new BlockPlaceEvent(state.getBlock(), state, block, player.getInventory().getItemInMainHand(), player, true, EquipmentSlot.HAND);
         plugin.getServer().getPluginManager().callEvent(placeEvent);
-        if (placeEvent.isCancelled()) {
-            state.update(true);
-        } else {
-            success = true;
+        if (!placeEvent.isCancelled()) {
             if (breakBlock) {
-                // Reset back to original block so we can break it
-                state.update(true);
                 block.breakNaturally();
 
                 useItemInHand(player);
-
-                block.setType(mat);
-                block.setData((byte) data);
             }
+
+            state.update(true);
         }
-
-        return success;
-    }
-
-    // Force an update to the rail by changing the block it's sitting on and changing it back
-    private void forceUpdate(Block block, int oldState, int newState) {
-        Block downBlock = block.getRelative(BlockFace.DOWN);
-        Material downType = downBlock.getType();
-
-        if (downType == Material.GRASS) {
-            downBlock.setType(Material.STONE);
-        } else {
-            downBlock.setType(Material.GRASS);
-        }
-
-        downBlock.setType(downType);
-
-        // Handle switching from a slope
-        switchToSlope(block, oldState);
-
-        // Handle switching to a slope
-        switchToSlope(block, newState);
-    }
-
-    private void switchToSlope(Block block, int state) {
-        Block nextBlock = null;
-
-        if (state == 2 || state == 10) {
-            nextBlock = block.getRelative(BlockFace.EAST);
-        } else if (state == 3 || state == 11) {
-            nextBlock = block.getRelative(BlockFace.WEST);
-        } else if (state == 4 || state == 12) {
-            nextBlock = block.getRelative(BlockFace.NORTH);
-        } else if (state == 5 || state == 13) {
-            nextBlock = block.getRelative(BlockFace.SOUTH);
-        }
-
-        if (nextBlock != null) {
-            Block nextUpBlock = nextBlock.getRelative(BlockFace.UP);
-            Material nextUpType = nextUpBlock.getType();
-            if (nextUpType == Material.RAILS || nextUpType == Material.POWERED_RAIL || nextUpType == Material.ACTIVATOR_RAIL || nextUpType == Material.DETECTOR_RAIL) {
-                Material nextType = nextBlock.getType();
-                if (nextType == Material.GRASS) {
-                    nextBlock.setType(Material.STONE);
-                } else {
-                    nextBlock.setType(Material.GRASS);
-                }
-
-                nextBlock.setType(nextType);
-            }
-        }
-    }
-
-    private boolean canPlaceRail(Block block) {
-        String material = block.getType().name();
-
-        short blockData = block.getData();
-        boolean canPlace = true;
-        List<String> materials = plugin.getMaterials();
-
-        for (String line : materials) {
-            String[] item = line.split(":");
-
-            if (material.equals(item[0])) {
-                if (item.length > 1) {
-                    String[] datas = item[1].split(",");
-
-                    for (String dataString : datas) {
-                        String[] ranges = dataString.split("-");
-
-                        if (ranges.length == 2) {
-                            int minData = Integer.parseInt(ranges[0]);
-                            int maxData = Integer.parseInt(ranges[1]);
-
-                            if (blockData >= minData && blockData <= maxData) {
-                                canPlace = false;
-                                break;
-                            }
-                        } else {
-                            int data = Integer.parseInt(ranges[0]);
-
-                            if (data == blockData) {
-                                canPlace = false;
-                                break;
-                            }
-                        }
-                    }
-                } else {
-                    canPlace = false;
-                    break;
-                }
-            }
-        }
-
-        return canPlace;
     }
 
     private void useItemInHand(Player player) {
