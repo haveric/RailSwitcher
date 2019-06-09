@@ -4,8 +4,10 @@
 
 #### Changelog:
 
-#### Coming Soon
-* Prevent blank lines in list files from being checked as materials
+#### Version 1.2 (Coming Soon)
+* Updated to 1.14.2
+* Removed block configuration files and options
+** Vanilla game breaks non supported blocks easier now, so less need for custom blocks here
 
 #### Version 1.1 (12/9/2014)
 * Updated Metrics to handle old getOnlinePlayers (provides backward support for old versions of CraftBukkit)
