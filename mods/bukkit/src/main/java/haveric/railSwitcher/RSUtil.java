@@ -3,6 +3,7 @@ package haveric.railSwitcher;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Piston;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
 
@@ -37,6 +38,11 @@ public class RSUtil {
         } else if (blockData instanceof Slab) {
             Slab slabData = (Slab) blockData;
             if (slabData.getType() == Slab.Type.TOP) {
+                canPlaceRail = true;
+            }
+        } else if (blockData instanceof Piston) {
+            Piston pistonData = (Piston) blockData;
+            if (!pistonData.isExtended()) {
                 canPlaceRail = true;
             }
         } else {
@@ -185,10 +191,8 @@ public class RSUtil {
 
             case LEVER:
 
-            case PISTON:
             case PISTON_HEAD:
             case MOVING_PISTON:
-            case STICKY_PISTON:
 
             case POWERED_RAIL:
 
