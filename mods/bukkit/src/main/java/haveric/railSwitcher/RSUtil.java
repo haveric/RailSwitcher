@@ -2,6 +2,9 @@ package haveric.railSwitcher;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Slab;
+import org.bukkit.block.data.type.Stairs;
 
 public class RSUtil {
     public static boolean isRail(Material material) {
@@ -22,7 +25,25 @@ public class RSUtil {
     }
 
     public static boolean canPlaceRail(Block block) {
-        return canPlaceRail(block.getType());
+        boolean canPlaceRail = false;
+
+        BlockData blockData = block.getBlockData();
+
+        if (blockData instanceof Stairs) {
+            Stairs stairsData = (Stairs) blockData;
+            if (stairsData.getHalf() == Stairs.Half.TOP) {
+                canPlaceRail = true;
+            }
+        } else if (blockData instanceof Slab) {
+            Slab slabData = (Slab) blockData;
+            if (slabData.getType() == Slab.Type.TOP) {
+                canPlaceRail = true;
+            }
+        } else {
+            canPlaceRail = canPlaceRail(block.getType());
+        }
+
+        return canPlaceRail;
     }
 
     public static boolean canPlaceRail(Material material) {
@@ -392,86 +413,6 @@ public class RSUtil {
             case LANTERN:
             case CAMPFIRE:
 
-                canPlaceRail = false;
-                break;
-            default:
-                break;
-        }
-
-        switch (material) {
-            case ACACIA_STAIRS:
-            case SANDSTONE_STAIRS:
-            case SMOOTH_QUARTZ_STAIRS:
-            case SMOOTH_RED_SANDSTONE_STAIRS:
-            case SMOOTH_SANDSTONE_STAIRS:
-            case SPRUCE_STAIRS:
-            case STONE_BRICK_STAIRS:
-            case STONE_STAIRS:
-            case ANDESITE_STAIRS:
-            case BIRCH_STAIRS:
-            case BRICK_STAIRS:
-            case COBBLESTONE_STAIRS:
-            case DARK_OAK_STAIRS:
-            case DARK_PRISMARINE_STAIRS:
-            case DIORITE_STAIRS:
-            case END_STONE_BRICK_STAIRS:
-            case GRANITE_STAIRS:
-            case JUNGLE_STAIRS:
-            case MOSSY_COBBLESTONE_STAIRS:
-            case MOSSY_STONE_BRICK_STAIRS:
-            case NETHER_BRICK_STAIRS:
-            case OAK_STAIRS:
-            case POLISHED_ANDESITE_STAIRS:
-            case POLISHED_DIORITE_STAIRS:
-            case POLISHED_GRANITE_STAIRS:
-            case PRISMARINE_BRICK_STAIRS:
-            case PRISMARINE_STAIRS:
-            case PURPUR_STAIRS:
-            case QUARTZ_STAIRS:
-            case RED_NETHER_BRICK_STAIRS:
-            case RED_SANDSTONE_STAIRS:
-                canPlaceRail = false;
-                break;
-            default:
-                break;
-        }
-
-        switch (material) {
-            case SANDSTONE_SLAB:
-            case SMOOTH_QUARTZ_SLAB:
-            case SMOOTH_RED_SANDSTONE_SLAB:
-            case SMOOTH_SANDSTONE_SLAB:
-            case SMOOTH_STONE_SLAB:
-            case SPRUCE_SLAB:
-            case STONE_BRICK_SLAB:
-            case STONE_SLAB:
-            case ACACIA_SLAB:
-            case ANDESITE_SLAB:
-            case BIRCH_SLAB:
-            case BRICK_SLAB:
-            case COBBLESTONE_SLAB:
-            case CUT_RED_SANDSTONE_SLAB:
-            case CUT_SANDSTONE_SLAB:
-            case DARK_OAK_SLAB:
-            case DARK_PRISMARINE_SLAB:
-            case DIORITE_SLAB:
-            case END_STONE_BRICK_SLAB:
-            case GRANITE_SLAB:
-            case JUNGLE_SLAB:
-            case MOSSY_COBBLESTONE_SLAB:
-            case MOSSY_STONE_BRICK_SLAB:
-            case NETHER_BRICK_SLAB:
-            case OAK_SLAB:
-            case PETRIFIED_OAK_SLAB:
-            case POLISHED_ANDESITE_SLAB:
-            case POLISHED_DIORITE_SLAB:
-            case POLISHED_GRANITE_SLAB:
-            case PRISMARINE_BRICK_SLAB:
-            case PRISMARINE_SLAB:
-            case PURPUR_SLAB:
-            case QUARTZ_SLAB:
-            case RED_NETHER_BRICK_SLAB:
-            case RED_SANDSTONE_SLAB:
                 canPlaceRail = false;
                 break;
             default:
