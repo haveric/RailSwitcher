@@ -26,24 +26,24 @@ public class RSUtil {
     }
 
     public static boolean canPlaceRail(Block block) {
-        boolean canPlaceRail = false;
+        boolean canPlaceRail = true;
 
         BlockData blockData = block.getBlockData();
 
         if (blockData instanceof Stairs) {
             Stairs stairsData = (Stairs) blockData;
-            if (stairsData.getHalf() == Stairs.Half.TOP) {
-                canPlaceRail = true;
+            if (stairsData.getHalf() == Stairs.Half.BOTTOM) {
+                canPlaceRail = false;
             }
         } else if (blockData instanceof Slab) {
             Slab slabData = (Slab) blockData;
-            if (slabData.getType() == Slab.Type.TOP) {
-                canPlaceRail = true;
+            if (slabData.getType() == Slab.Type.BOTTOM) {
+                canPlaceRail = false;
             }
         } else if (blockData instanceof Piston) {
             Piston pistonData = (Piston) blockData;
-            if (!pistonData.isExtended()) {
-                canPlaceRail = true;
+            if (pistonData.isExtended()) {
+                canPlaceRail = false;
             }
         } else {
             canPlaceRail = canPlaceRail(block.getType());
@@ -52,7 +52,7 @@ public class RSUtil {
         return canPlaceRail;
     }
 
-    public static boolean canPlaceRail(Material material) {
+    private static boolean canPlaceRail(Material material) {
         boolean canPlaceRail = true;
 
         switch (material) {

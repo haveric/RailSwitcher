@@ -4,8 +4,9 @@
 
 #### Changelog:
 
-#### Version 1.2 (Coming Soon)
-* Updated to 1.14.2
+#### Version 1.2.0 (6/9/2019)
+* Updated to 1.14
+* Removed Metrics
 * Removed block configuration files and options
 ** Vanilla game breaks non supported blocks easier now, so less need for custom blocks here
 
