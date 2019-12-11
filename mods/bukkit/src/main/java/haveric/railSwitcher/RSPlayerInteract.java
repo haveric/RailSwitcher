@@ -16,8 +16,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.PlayerInventory;
 
-import java.util.List;
-
 public class RSPlayerInteract implements Listener {
 
     private RailSwitcher plugin;

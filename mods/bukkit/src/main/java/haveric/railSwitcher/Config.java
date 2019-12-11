@@ -34,10 +34,7 @@ public class Config {
         } catch (FileNotFoundException e) {
             plugin.log.warning("config.yml not found. Creating a new one.");
             saveConfig();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (InvalidConfigurationException e) {
+        } catch (IOException | InvalidConfigurationException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
