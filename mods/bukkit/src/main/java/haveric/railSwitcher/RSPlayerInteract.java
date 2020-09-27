@@ -125,11 +125,14 @@ public class RSPlayerInteract implements Listener {
         if (!placeEvent.isCancelled()) {
             if (breakBlock) {
                 block.breakNaturally();
-
                 useItemInHand(player);
             }
 
             state.update(true);
+
+            if (Supports.swingHand()) {
+                player.swingMainHand();
+            }
         }
     }
 

@@ -4,6 +4,9 @@
 
 #### Changelog:
 
+#### Version 1.2.1
+* Add support for player hand swinging
+
 #### Version 1.2.0 (6/9/2019)
 * Updated to 1.14
 * Removed Metrics
