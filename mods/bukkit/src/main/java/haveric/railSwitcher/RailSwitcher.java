@@ -21,11 +21,5 @@ public class RailSwitcher extends JavaPlugin {
         Config.setup();
 
         getCommand(Commands.getMain()).setExecutor(commands);
-
-    }
-
-    @Override
-    public void onDisable() {
-
     }
 }
