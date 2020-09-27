@@ -6,6 +6,7 @@
 
 #### Version 1.2.1
 * Add support for player hand swinging
+* Fix replacing corner rails with other rail types
 
 #### Version 1.2.0 (6/9/2019)
 * Updated to 1.14

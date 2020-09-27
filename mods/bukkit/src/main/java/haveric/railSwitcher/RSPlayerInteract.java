@@ -103,10 +103,14 @@ public class RSPlayerInteract implements Listener {
                     }
                 }
 
-
                 if (hand == Config.getRotateTool() || hand == type) {
                     replaceBlock(player, block, type, newShape, false);
                 } else if (Perms.canSwap(player)) {
+                    if (type == Material.RAIL) {
+                        if (newShape == Rail.Shape.NORTH_EAST || newShape == Rail.Shape.NORTH_WEST || newShape == Rail.Shape.SOUTH_EAST || newShape == Rail.Shape.SOUTH_WEST) {
+                            newShape = Rail.Shape.EAST_WEST;
+                        }
+                    }
                     replaceBlock(player, block, hand, newShape, true);
                 }
             }
