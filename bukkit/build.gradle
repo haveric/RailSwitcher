@@ -1,0 +1,18 @@
+repositories {
+    mavenCentral()
+    maven {
+        name 'Spigot/Bukkit maven repo'
+        url 'https://hub.spigotmc.org/nexus/content/groups/public/'
+    }
+}
+
+dependencies {
+    implementation 'org.spigotmc:spigot-api:1.16.5-R0.1-SNAPSHOT'
+}
+
+task copyJar(type: Copy) {
+    from jar
+    into '../build/libs/bukkit/'
+}
+
+build.dependsOn copyJar

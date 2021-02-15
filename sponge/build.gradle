@@ -1,0 +1,26 @@
+plugins {
+    id 'java'
+    id 'org.spongepowered.plugin' version '0.9.0'
+}
+
+compileJava.options.encoding = 'UTF-8'
+
+group = 'haveric.railSwitcher'
+version = '2.0'
+description = 'Switch placed rails with other types or directions'
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    implementation 'org.spongepowered:spongeapi:3.0.0'
+    implementation "com.googlecode.json-simple:json-simple:1.1.1"
+}
+
+task copyJar(type: Copy) {
+    from jar
+    into '../build/libs/sponge/'
+}
+
+build.dependsOn copyJar
