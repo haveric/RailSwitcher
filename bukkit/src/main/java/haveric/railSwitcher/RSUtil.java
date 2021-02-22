@@ -417,6 +417,48 @@ public class RSUtil {
             case LANTERN:
             case CAMPFIRE:
 
+            // 1.15
+            case HONEY_BLOCK:
+
+            // 1.16
+            case CHAIN:
+            case CRIMSON_FUNGUS:
+            case WARPED_FUNGUS:
+            case CRIMSON_ROOTS:
+            case WARPED_ROOTS:
+            case POTTED_CRIMSON_FUNGUS:
+            case POTTED_CRIMSON_ROOTS:
+            case POTTED_WARPED_FUNGUS:
+            case POTTED_WARPED_ROOTS:
+            case NETHER_SPROUTS:
+            case SOUL_CAMPFIRE:
+            case SOUL_FIRE:
+            case SOUL_LANTERN:
+            case SOUL_TORCH:
+            case TWISTING_VINES:
+            case WEEPING_VINES:
+            case BLACKSTONE_WALL:
+            case POLISHED_BLACKSTONE_BRICK_WALL:
+            case POLISHED_BLACKSTONE_WALL:
+            case CRIMSON_SIGN:
+            case WARPED_SIGN:
+            case WARPED_WALL_SIGN:
+            case CRIMSON_WALL_SIGN:
+            case CRIMSON_FENCE:
+            case WARPED_FENCE:
+            case CRIMSON_FENCE_GATE:
+            case WARPED_FENCE_GATE:
+            case CRIMSON_PRESSURE_PLATE:
+            case POLISHED_BLACKSTONE_PRESSURE_PLATE:
+            case WARPED_PRESSURE_PLATE:
+            case CRIMSON_DOOR:
+            case WARPED_DOOR:
+            case CRIMSON_BUTTON:
+            case POLISHED_BLACKSTONE_BUTTON:
+            case WARPED_BUTTON:
+            case CRIMSON_TRAPDOOR:
+            case WARPED_TRAPDOOR:
+
                 canPlaceRail = false;
                 break;
             default:

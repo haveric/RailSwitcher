@@ -5,6 +5,7 @@
 #### Changelog:
 
 #### Version 1.2.1
+* Updated for 1.15 and 1.16 blocks
 * Add support for player hand swinging
 * Fix replacing corner rails with other rail types
 
