@@ -62,7 +62,7 @@ public class Commands {
 
         };
 
-        List<String> aliases = new ArrayList<String>();
+        List<String> aliases = new ArrayList<>();
         aliases.add("railswitcher");
         aliases.add("rs");
 
