@@ -4,6 +4,10 @@
 
 #### Changelog:
 
+### Coming SOon:
+* Updated for 1.17 blocks
+* Fixed twisting and weeping vine bases connecting when they shouldn't
+
 #### Version 1.2.1
 * Updated for 1.15 and 1.16 blocks
 * Add support for player hand swinging
