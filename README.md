@@ -4,12 +4,8 @@
 
 #### Changelog:
 
-### Coming SOon:
-* Updated for 1.17 blocks
-* Fixed twisting and weeping vine bases connecting when they shouldn't
-
-#### Version 1.2.1
-* Updated for 1.15 and 1.16 blocks
+### Version 1.3.0 (6/13/2021)
+* Updated for 1.15-1.17 blocks
 * Add support for player hand swinging
 * Fix replacing corner rails with other rail types
 
