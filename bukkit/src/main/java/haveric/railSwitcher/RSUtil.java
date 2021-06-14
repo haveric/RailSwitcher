@@ -247,6 +247,7 @@ public class RSUtil {
             // 1.17
             case BIG_DRIPLEAF:
             case BIG_DRIPLEAF_STEM:
+            case CAVE_VINES:
             case CAVE_VINES_PLANT:
             case GLOW_LICHEN:
             case HANGING_ROOTS:
