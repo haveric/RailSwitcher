@@ -34,8 +34,7 @@ public class Commands implements CommandExecutor {
         }
 
         boolean hasAdminPerm = false;
-        if (sender instanceof Player) {
-            Player player = (Player) sender;
+        if (sender instanceof Player player) {
             hasAdminPerm = Perms.hasAdmin(player);
         }
 
